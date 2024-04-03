@@ -1,14 +1,15 @@
 const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
+    productName: String,
     ownerName :String,
     email : String,
-    upi : String,
-    contact : Number,
+    // upi : String,
+    // contact : Number,
     category : String,
     material : String,
     description: String,
-    pricec : Number,
+    price : Number,
     stock: Number,
     dimensions : String,
     weight : String,
