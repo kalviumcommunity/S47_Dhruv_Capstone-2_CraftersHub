@@ -8,4 +8,6 @@ product.post('/insert',upload.fields([{name:"productImg",maxCount:4},{name:"owne
 product.get('/:id',productController.GetDataById)
 product.put('/update/:id',productController.PutData)
 product.delete('/:id',productController.DeleteData)
+
+
 module.exports = product
