@@ -6,7 +6,7 @@ export const ValidationSchemaForm = yup.object({
     material : yup.string().required("Please select material"),
     description : yup.string().min(10).required("Please select description"),
     price : yup.number().required("Please enter price"),
-    stock : yup.number().required("Please enter available stock"),
+    stock : yup.number().min(0,"Stock can not be less than 0").required("Please enter available stock"),
     height : yup.number().min(0.1,"height must be valid").required("Please enter height"),
     length : yup.number().min(0.1,"length must be valid").required("Please enter length"),
     width : yup.number().min(0.1,"width must be valid").required("Please enter width"),

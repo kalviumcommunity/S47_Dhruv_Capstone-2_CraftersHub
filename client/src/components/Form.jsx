@@ -224,13 +224,14 @@ const Form = () => {
                 </div>
                 {(errors.weight || errors.weightUnit) && (touched.weight || touched.weightUnit) ? <p className={form.error}>{errors.weight || errors.weightUnit}</p> : null}
                 <div className={form.inputbox}>
-                    <label htmlFor="productImg">Product image:- </label>
+                    <label htmlFor="productImg">Product image ({values.productImg.length}/4):- </label>
                     <input
                         type="file"
                         id='productImg'
                         name='productImg'
                         multiple
                         onChange={handelFileChange}
+                        disabled = {values.productImg.length == 4}
                     />
                 </div>
                 {errors.productImg && touched.productImg ? <p className={form.error}>{errors.productImg}</p> : null}

@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.box{
+    border: 1px solid black;
+    padding: 2vh;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 2vh;
+}
+.img{
+    size: 100% 100%;
+    height: 40vh;
+}
+
+.body{
+    text-align:center ;
+}
