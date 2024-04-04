@@ -43,6 +43,9 @@ class product{
             const {productImg,ownerImg} = req.files
             const newData = req.body
             
+            if (!productImg || !ownerImg) {
+                return res.status(400).json({ error: 'Product image or owner image is missing' });
+            }
             const productImgUrlResponse = productImg.map(file=>uploadOnCloudinary(file.path))
             const ownerImgUrlResponse = ownerImg.map(file=>uploadOnCloudinary(file.path))
 
@@ -54,7 +57,7 @@ class product{
 
             newData.productImg = productImageUrl
             newData.ownerImg = ownerImageUrl
-            
+
             await productModel.create(newData)
             console.log(newData);
             res.json(newData)
