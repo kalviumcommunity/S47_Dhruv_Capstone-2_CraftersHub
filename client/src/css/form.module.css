@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.error{
+    color: red;
+}
+.form{
+    width: max-content;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    padding: 2vh;
+    text-align: center;
+    font-size: 3vh;
+}
+.inputbox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.input{
+    width: 3.5vw;
+    margin: 0 0.1vw;
+}
+.inputs{
+    width: 15vw;
+    /* margin: 0 0.1vw; */
+}
+.submitbtn{
+    font-size: 2vh;
+    padding: 1vh;
+}
+.inputs, .input{
+    outline: none;
+    font-size: 2vh;
+    padding: 0.5vh;
+}
