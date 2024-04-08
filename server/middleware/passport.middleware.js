@@ -1,6 +1,8 @@
 const {userModel} = require('../models/user.model')
 const localStategy = require('passport-local').Strategy
+const oauthStategy = require('passport-google-oauth2').Strategy
 const bcrypt = require('bcryptjs')
+require('dotenv').config()
 const intializingPassport = (passport) =>{
     passport.use(new localStategy( async (username,password,done)=>{
         try {
@@ -9,31 +11,64 @@ const intializingPassport = (passport) =>{
             if (!user || !(await bcrypt.compare(password, user.password))) {
                 return done(null, false);
             }
-
+            // req.session.user = user
             return done(null,user)   
         } catch (error) {
             return done(error,false)
         }
     }))
 
+    passport.use(
+        new oauthStategy({
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: '/auth/google/callback',
+            scope:["profile","email"]
+        },
+        async (accessToken,refreshToken,profile,done)=>{
+            // console.log("profile", profile);
+            try {
+                let existUser = await userModel.findOne({username:profile.emails[0].value})
+                // console.log("existUser",existUser);
+                if(!existUser){
+                    user = await userModel.create({
+                        name : profile.displayName,
+                        username: profile.emails[0].value,
+                        ownerImg :[profile.photos[0].value]
+                    })
+                    return done(null,user)
+                }else{
+                    done(null,existUser)
+                }
+            } catch (error) {
+                done(error,null)
+            }
+        }
+        )
+    )
+
     passport.serializeUser((user,done)=>{
-        done(null,user.id)
+        // console.log("user._id",user);
+        done(null,user)
     })
 
-    passport.deserializeUser(async (id,done)=>{
-        try {
-            const user = await userModel.findById(id)
-            done(null,user)
-        } catch (error) {
-            done(error,false)
-        }
+    passport.deserializeUser((user,done)=>{
+        // try {
+        //     // const user = await userModel.findById(id)
+        //     done(null,user)
+        // } catch (error) {
+        //     done(error,false)
+        // }
+        done(null,user)
     })
 } 
 
 const routeProtector = (req,res,next)=>{
-    console.log("protector",req.user);
-    if(req.user) return next()
+    const userEmail = req.headers['authorization']
+    console.log("protector",req.session);
+
+    if(userEmail) return next()
 
     res.status(401).send('Please login first')
 }
-module.exports = {intializingPassport , routeProtector}
+module.exports = {intializingPassport,routeProtector }
