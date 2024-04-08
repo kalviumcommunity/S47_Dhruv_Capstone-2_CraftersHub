@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     contact : String,
     address : String,
     password : String,
-    ownerImg : [{typem: String}]
+    ownerImg : [{type: String}]
 })
 
 const userModel = mongoose.model('user',userSchema)

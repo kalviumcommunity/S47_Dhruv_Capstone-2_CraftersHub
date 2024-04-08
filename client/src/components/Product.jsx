@@ -8,18 +8,36 @@ const Product = () => {
     const [Data, setData] = useState([])
     const [imageIndexes, setImageIndexes] = useState([]);
     const [error, setError] = useState('')
+    const [userData,setUserData]=useState([])
 
+    const fetchUser =async ()=>{
+        try {
+            const response = await axios.get('http://localhost:9000/login/success',{withCredentials:true})
+            console.log("response",response);
+            setUserData(response)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    console.log(userData);
     useEffect(() => {
+
         const fetchData = async () => {
             setError('')
             try {
-                const res = await axios.get('http://localhost:9000/product')
+                const res = await axios.get('http://localhost:9000/product',{
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Authorization": localStorage.getItem('email')
+                    }
+                })
                 setData(res.data)
                 setImageIndexes(res.data.map(() => 0));
             } catch (error) {
                 setError(error.response.data);
             }
         }
+        fetchUser()
         fetchData()
     }, [])
     console.log(Data);

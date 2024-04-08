@@ -5,9 +5,15 @@ const passport = require('passport')
 const expressSession = require('express-session')
 const bcrypt = require('bcryptjs')
 const auth = express()
+const cors = require('cors')
+require('dotenv').config()
+
+
 auth.use(express.json())
+auth.use(cors())
 intializingPassport(passport)
-auth.use(expressSession({secret:"Dhruv@1184", resave:false, saveUninitialized:false}))
+
+auth.use(expressSession({secret:process.env.SESSION_SECRET , resave:false, saveUninitialized:true}))
 auth.use(passport.initialize())
 auth.use(passport.session())
 
@@ -50,9 +56,10 @@ auth.post('/signup',async (req,res)=>{
 
 auth.post('/login',passport.authenticate('local'),async (req,res)=>{
     try {
-        if(req.isAuthenticated()){
+        if(req.user){
+            console.log("auth" , req.user);
+            req.session.user = req.user
             res.json(req.user)
-
         }
         else{
             res.status(401).send('Authentication failed');
@@ -63,4 +70,20 @@ auth.post('/login',passport.authenticate('local'),async (req,res)=>{
     }
 })
 
+auth.get('/auth/google',passport.authenticate("google",{scope:["profile","email"]}))
+
+
+auth.get('/auth/google/callback',passport.authenticate("google",{
+    successRedirect:"http://localhost:5173/product",
+    failureRedirect:"http://localhost:9000/login"
+}))
+
+auth.get('/login/success',(req,res)=>{
+    console.log("req.user",req.user);
+    if(req.user){
+        res.json({user:req.user})
+    }else{
+        res.status(400).json({message:"Not authenticated"})
+    }
+})
 module.exports = auth
