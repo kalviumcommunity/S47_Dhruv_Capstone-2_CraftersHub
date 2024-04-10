@@ -7,6 +7,7 @@ import Home from './components/Home'
 import Profile from './components/Profile'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import Error from './components/Error'
 function App() {
 
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path='/product' element={<Product/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/signup' element={<Signup/>}></Route>
+      <Route path='/error' element={<Error/>}></Route>
     </Routes>
       
     </>
