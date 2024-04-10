@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 const Profile = () => {
   const [userData, setUserData] = useState([])
-  const navigate = useNavigate
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -24,7 +24,15 @@ const Profile = () => {
       <div>
         <img src={userData.ownerImg} alt="owner Image" />
         <div>
-          
+          <span>Name:- <span>{userData.name}</span></span>
+          <br />
+          <span>Email:- <span>{userData.username}</span></span>
+          <br />
+          <span>Contact:- <span>{userData.contact ? userData.contact : "-----"}</span></span>
+          <br />
+          <span>Address:- <span>{userData.address ? userData.address : "-----"}</span></span>
+          <br />
+          <button onClick={()=>navigate(`/updateProfile/${userData._id}`)}>Edit</button>
         </div>
       </div>
     </div>

@@ -4,13 +4,14 @@ const express = require('express')
 const passport = require('passport')
 const expressSession = require('express-session')
 const bcrypt = require('bcryptjs')
+const {User} = require('../controllers/user.controller')
 const auth = express()
-const cors = require('cors')
+// const cors = require('cors')
 require('dotenv').config()
 
 
+// auth.use(cors())
 auth.use(express.json())
-auth.use(cors())
 intializingPassport(passport)
 
 auth.use(expressSession({secret:process.env.SESSION_SECRET , resave:false, saveUninitialized:true}))
@@ -58,13 +59,13 @@ auth.post('/login',passport.authenticate('local'),async (req,res)=>{
     try {
         if(req.user){
             console.log("auth" , req.user);
+            console.log("session",req.session.user);
             req.session.user = req.user
-            res.json(req.user)
+            res.json(req.session.user)
         }
         else{
             res.status(401).send('Authentication failed');
         }
-        // console.log(req.user);
     } catch (error) {
         console.log(error);
     }
@@ -78,9 +79,9 @@ auth.get('/auth/google/callback',passport.authenticate("google",{
     failureRedirect:"http://localhost:9000/login"
 }))
 
-auth.get('/login/success',cors(),(req,res)=>{
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-    console.log("req.user",req.user);
+auth.get('/login/success',(req,res)=>{
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    console.log("req.user",req.session);
     if(req.user){
         res.json({user:req.user})
     }else{
@@ -96,4 +97,9 @@ auth.get('/logout',(req,res,next)=>{
         res.redirect('http://localhost:5173/')
     })
 })
+
+// User routes
+auth.get('/update/:id',User.GetUserById)
+
+auth.put('/update/:id',User.PutUser)
 module.exports = auth

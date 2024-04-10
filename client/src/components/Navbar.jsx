@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import logo from '../assets/CrafersHubLogo.png'
 import nav from '../css/nav.module.css'
 import { useNavigate } from 'react-router-dom'
@@ -33,12 +33,13 @@ const Navbar = () => {
       <div className={nav.opt}>
         {
           Object.keys(userData)?.length > 0 ?(
-          <>
+          <div className={nav.opts}>
+          <span className={nav.name}>Welcome {userData.name}</span>
           <button className={nav.btn} onClick={()=>navigate('/product')} >Products</button>
           <button className={nav.btn} onClick={()=>navigate('/profile')}>Profile</button>
           <button className={nav.btn}>Chats</button>
           <button onClick={logout}>Logout</button>
-          </>):
+          </div>):
           <>
           <button className={nav.btn} onClick={()=>navigate('/login')}>Login</button>
           <button className={nav.btn} onClick={()=>navigate('/signup')}>Signup</button>
