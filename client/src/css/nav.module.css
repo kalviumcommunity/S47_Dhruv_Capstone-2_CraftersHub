@@ -12,7 +12,7 @@
 }
 .nav{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 1vh 3vw;
     border: 1px dotted black;
 }
@@ -24,4 +24,8 @@
 .btn{
     font-size: 3vh;
     cursor: pointer;
+}
+.opts{
+    display: flex;
+    column-gap: 2vw;
 }
