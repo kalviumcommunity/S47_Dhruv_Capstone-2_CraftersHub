@@ -5,6 +5,7 @@ const passport = require('passport')
 const expressSession = require('express-session')
 const bcrypt = require('bcryptjs')
 const {User} = require('../controllers/user.controller')
+const upload = require('../middleware/Files.middleware')
 const auth = express()
 // const cors = require('cors')
 require('dotenv').config()
@@ -35,11 +36,11 @@ auth.post('/signup',async (req,res)=>{
         const {name,username,password} = req.body
 
         if(!(name || username || password)){
-            res.status(400).send('All input required')
+            return res.status(400).send('All input required')
         }
         const existUser = await userModel.findOne({username})
         if(existUser){
-            res.status(400).send("User Already Exist. Please Login")
+            return res.status(400).send("User Already Exist. Please Login")
         }else{
             const hashedPassword = await bcrypt.hash(password,10)
 
@@ -55,13 +56,13 @@ auth.post('/signup',async (req,res)=>{
     }
 })
 
-auth.post('/login',passport.authenticate('local'),async (req,res)=>{
+auth.post('/login',passport.authenticate("local"),async (req,res)=>{
     try {
         if(req.user){
             console.log("auth" , req.user);
-            console.log("session",req.session.user);
             req.session.user = req.user
-            res.json(req.session.user)
+            // console.log("session:-",req.session.user);
+            return res.json(req.session)
         }
         else{
             res.status(401).send('Authentication failed');
@@ -69,7 +70,8 @@ auth.post('/login',passport.authenticate('local'),async (req,res)=>{
     } catch (error) {
         console.log(error);
     }
-})
+}
+)
 
 auth.get('/auth/google',passport.authenticate("google",{scope:["profile","email"]}))
 
@@ -80,9 +82,9 @@ auth.get('/auth/google/callback',passport.authenticate("google",{
 }))
 
 auth.get('/login/success',(req,res)=>{
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-    console.log("req.user",req.session);
-    if(req.user){
+
+    // console.log("login req.user:- ",req.session);
+    if(req.isAuthenticated()){
         res.json({user:req.user})
     }else{
         res.status(400).json({message:"Not authenticated"})
@@ -101,5 +103,5 @@ auth.get('/logout',(req,res,next)=>{
 // User routes
 auth.get('/update/:id',User.GetUserById)
 
-auth.put('/update/:id',User.PutUser)
+auth.put('/update/:id',upload.single('ownerImg'),User.PutUser)
 module.exports = auth

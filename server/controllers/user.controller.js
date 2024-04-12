@@ -1,5 +1,5 @@
 const {userModel} = require('../models/user.model')
-
+const {uploadOnCloudinary} = require('../utils/cloudinary')
 
 class User{
     //get request 
@@ -29,8 +29,22 @@ class User{
         try {
             const id = req.params.id
             const modifiedData = req.body
-            await userModel.findByIdAndUpdate(id, modifiedData)
-            res.json(modifiedData)
+            const file = req.file
+            console.log("body",req.body);
+            console.log("file",file);
+            if(req.file){
+                const {url} = await uploadOnCloudinary(file.path)
+                // const ownerImagePromise = await Promise.all(ownerImgUrlResponse)
+                // const ownerImageUrl = ownerImagePromise.url
+
+                modifiedData.ownerImg = [url]
+                // await userModel.findByIdAndUpdate(id, modifiedData,{new:true})
+                // console.log("modiified data", modifiedData);
+                // return res.json(modifiedData)
+            }
+            const updatedData = await userModel.findByIdAndUpdate(id, modifiedData,{new:true})
+            console.log(updatedData);
+            res.json(updatedData)
         } catch (error) {
             console.log(error);
         }
