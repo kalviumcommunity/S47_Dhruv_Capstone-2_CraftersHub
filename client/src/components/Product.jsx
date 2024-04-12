@@ -3,13 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import home from '../css/Home.module.css'
 import Navbar from './Navbar'
-
 const Product = () => {
     const [Data, setData] = useState([])
     const [imageIndexes, setImageIndexes] = useState([]);
     const [error, setError] = useState('')
     const [userData,setUserData]=useState([])
-
+    const navigate = useNavigate()
     const fetchUser =async ()=>{
         try {
             const response = await axios.get('http://localhost:9000/login/success',{withCredentials:true})
@@ -17,6 +16,7 @@ const Product = () => {
             setUserData(response)
         } catch (error) {
             console.log(error);
+            navigate('/error')
         }
     }
     console.log(userData);
@@ -35,6 +35,7 @@ const Product = () => {
                 setImageIndexes(res.data.map(() => 0));
             } catch (error) {
                 setError(error.response.data);
+
             }
         }
         fetchUser()

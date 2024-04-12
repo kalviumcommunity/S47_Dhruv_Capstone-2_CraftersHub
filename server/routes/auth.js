@@ -74,16 +74,26 @@ auth.get('/auth/google',passport.authenticate("google",{scope:["profile","email"
 
 
 auth.get('/auth/google/callback',passport.authenticate("google",{
-    successRedirect:"http://localhost:5173/product",
+    successRedirect:"http://localhost:5173/",
     failureRedirect:"http://localhost:9000/login"
 }))
 
-auth.get('/login/success',(req,res)=>{
+auth.get('/login/success',cors(),(req,res)=>{
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
     console.log("req.user",req.user);
     if(req.user){
         res.json({user:req.user})
     }else{
         res.status(400).json({message:"Not authenticated"})
     }
+})
+
+auth.get('/logout',(req,res,next)=>{
+    req.logOut(function(err){
+        if (err) {
+            return next(err)
+        }
+        res.redirect('http://localhost:5173/')
+    })
 })
 module.exports = auth
