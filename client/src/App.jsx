@@ -9,6 +9,7 @@ import Login from './components/Login'
 import Signup from './components/Signup'
 import Error from './components/Error'
 import EditProfile from './components/EditProfile'
+import ProductUpdate from './components/ProductUpdate'
 function App() {
 
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path='/signup' element={<Signup/>}></Route>
       <Route path='/error' element={<Error/>}></Route>
       <Route path='/updateProfile/:id' element={<EditProfile/>}></Route>
+      <Route path='/updateProduct/:id' element={<ProductUpdate/>}></Route>
     </Routes>
     </>
   )
