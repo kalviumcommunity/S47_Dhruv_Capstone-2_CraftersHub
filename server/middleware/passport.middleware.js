@@ -65,7 +65,7 @@ const intializingPassport = (passport) =>{
 
 const routeProtector = (req,res,next)=>{
     const userEmail = req.headers['authorization']
-    console.log("protector",req.session);
+    console.log("protector",req.body);
 
     if(userEmail) return next()
 
