@@ -15,8 +15,8 @@ const Login = () => {
       username: email,
       password
     }).then(res => {
-      console.log(res);
-      localStorage.setItem('email', res.data.username);
+      console.log("res",res);
+      // localStorage.setItem('email', res.data.username);
       navigate('/product')
 
     }).catch(err => {
@@ -42,6 +42,7 @@ const Login = () => {
   const googlePage = () => {
     window.open("http://localhost:9000/auth/google/callback", "_self")
   }
+  
   return (
     <div>
       <h1>Login</h1>

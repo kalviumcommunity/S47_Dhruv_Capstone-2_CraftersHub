@@ -49,17 +49,17 @@ const intializingPassport = (passport) =>{
 
     passport.serializeUser((user,done)=>{
         // console.log("user._id",user);
-        done(null,user)
+        done(null,user.id)
     })
 
-    passport.deserializeUser((user,done)=>{
-        // try {
-        //     // const user = await userModel.findById(id)
-        //     done(null,user)
-        // } catch (error) {
-        //     done(error,false)
-        // }
-        done(null,user)
+    passport.deserializeUser(async (id,done)=>{
+        try {
+            const user = await userModel.findById(id)
+            done(null,user)
+        } catch (error) {
+            done(error,false)
+        }
+        // done(null,user)
     })
 } 
 
