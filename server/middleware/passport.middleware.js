@@ -63,12 +63,15 @@ const intializingPassport = (passport) =>{
     })
 } 
 
-const routeProtector = (req,res,next)=>{
-    const userEmail = req.headers['authorization']
-    console.log("protector",req.body);
-
-    if(userEmail) return next()
-
-    res.status(401).send('Please login first')
+const routeProtector = async (req,res,next)=>{
+    try {
+        console.log("protector",req.session);
+    
+        if(req.user) return next()
+    
+        res.status(401).send('Please login first')
+    } catch (error) {
+        console.log(error);
+    }
 }
 module.exports = {intializingPassport,routeProtector }
