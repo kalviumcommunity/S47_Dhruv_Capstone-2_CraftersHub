@@ -119,7 +119,7 @@ const Profile = () => {
                     // {item.stock > 10 ? <h1></h1> : <h1></h1>}
                     : <h1> Out of stock</h1>}
                   <br />
-                  <button>Update</button>
+                  <button onClick={()=>navigate(`/updateProduct/${item._id}`)}>Update</button>
                   <button onClick={() => DeleteProduct(item._id)}>Delete</button>
                 </div>
               </div>
