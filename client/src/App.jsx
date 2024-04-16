@@ -12,6 +12,9 @@ import EditProfile from './components/EditProfile'
 import ProductUpdate from './components/ProductUpdate'
 import ForgetPassword from './components/ForgetPassword'
 import ResetPassword from './components/ResetPassword'
+import BookPage from './components/BookPage'
+import Payment from './components/Payment'
+import OrderPlaced from './components/OrderPlaced'
 function App() {
 
   return (
@@ -28,7 +31,9 @@ function App() {
       <Route path='/updateProduct/:id' element={<ProductUpdate/>}></Route>
       <Route path='/forgetPassword' element={<ForgetPassword/>}></Route>
       <Route path='/resetPassword/:id/:token' element={<ResetPassword/>}></Route>
-      
+      <Route path='/book/:id' element={<BookPage/>}></Route>
+      <Route path='/payment' element={<Payment/>}></Route>
+      <Route path='/orderPlaced' element={<OrderPlaced/>}></Route>
     </Routes>
     </>
   )
