@@ -81,8 +81,9 @@ class product{
     //Put request
     static PutData = async (req,res)=>{
         try {
-            const id = req.params.id
             const modifiedData = req.body
+            //Put
+            const id = req.params.id
             await productModel.findByIdAndUpdate(id, modifiedData)
             res.json(modifiedData)
         } catch (error) {

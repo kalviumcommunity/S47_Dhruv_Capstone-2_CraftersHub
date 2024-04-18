@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  // const [userdata,setData] = useState([])
   const [error, setError] = useState('')
   const navigate = useNavigate()
+
   const onLoginBtn = (e) => {
     setError('')
     e.preventDefault()
@@ -16,15 +18,13 @@ const Login = () => {
       password
     }).then(res => {
       console.log("res",res);
-      // localStorage.setItem('email', res.data.username);
-      navigate('/product')
+      // navigate('/product')
 
     }).catch(err => {
       console.log(err);
       setError(err)
     })
   }
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -55,6 +55,7 @@ const Login = () => {
           <label htmlFor="password">Password:- </label>
           <input type="text" name="password" required id="password" placeholder='Enter your password' onChange={(e) => setPassword(e.target.value)} />
         </div>
+        <p style={{color:"blue",cursor:"pointer"}} onClick={()=>navigate('/forgetPassword')}>Forget password?</p>
         <button type='submit'>Login</button>
       </form>
       <p>Or</p>

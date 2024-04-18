@@ -10,6 +10,7 @@ import Signup from './components/Signup'
 import Error from './components/Error'
 import EditProfile from './components/EditProfile'
 import ProductUpdate from './components/ProductUpdate'
+import ForgetPassword from './components/ForgetPassword'
 function App() {
 
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path='/error' element={<Error/>}></Route>
       <Route path='/updateProfile/:id' element={<EditProfile/>}></Route>
       <Route path='/updateProduct/:id' element={<ProductUpdate/>}></Route>
+      <Route path='/forgetPassword' element={<ForgetPassword/>}></Route>
     </Routes>
     </>
   )
