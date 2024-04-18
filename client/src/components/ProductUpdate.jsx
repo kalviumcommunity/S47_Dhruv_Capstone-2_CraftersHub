@@ -5,7 +5,7 @@ import axios from 'axios'
 import form from '../css/form.module.css'
 const ProductUpdate = () => {
     const { id } = useParams()
-    const [user,setuser] = useState([])
+    const [user, setuser] = useState([])
     const navigate = useNavigate()
     const [productName, setProductName] = useState("")
     const [category, setCategory] = useState("")
@@ -23,7 +23,13 @@ const ProductUpdate = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get('http://localhost:9000/login/success', { withCredentials: true })
+                let headers = { withCredentials: true }
+                const id = localStorage.getItem('id')
+
+                if (id) {
+                    headers['Authorization'] = `Bearer ${id}`
+                }
+                const response = await axios.get('http://localhost:9000/login/success', { headers })
                 setuser(response.data.user)
             } catch (error) {
                 console.log(error);
@@ -55,24 +61,24 @@ const ProductUpdate = () => {
         productData()
 
     }, [])
-    const  onSubmtBtn = (e)=>{
+    const onSubmtBtn = (e) => {
         e.preventDefault()
 
-        axios.put(`http://localhost:9000/product/update/${id}`,{
+        axios.put(`http://localhost:9000/product/update/${id}`, {
             productName,
             category,
             material,
             description,
             price,
             stock,
-            dimensions:`${height} x ${length} x ${width} (in ${dimenstionUnit})`,
+            dimensions: `${height} x ${length} x ${width} (in ${dimenstionUnit})`,
             weight: `${weight} ${weightUnit}`,
             email: user.username
-        }).then((res)=>{
-            console.log("put resonse",res.data);
+        }).then((res) => {
+            console.log("put resonse", res.data);
             alert("Data updated")
             navigate('/profile')
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err);
         })
     }
@@ -80,7 +86,7 @@ const ProductUpdate = () => {
         <div className={form.body}>
             <div className={form.form}>
                 <h1>Update data</h1>
-                <form onSubmit={(e)=>onSubmtBtn(e)} method="post" encType="multipart/form-data">
+                <form onSubmit={(e) => onSubmtBtn(e)} method="post" encType="multipart/form-data">
                     <div className={form.inputbox}>
                         <label htmlFor="productName">Product name:- </label>
                         <input
@@ -91,12 +97,12 @@ const ProductUpdate = () => {
                             placeholder='Enter product name'
                             value={productName}
                             required
-                            onChange={(e)=>setProductName(e.target.value)}
+                            onChange={(e) => setProductName(e.target.value)}
                         />
                     </div>
                     <div className={form.inputbox}>
                         <label htmlFor="category">Product category:- </label>
-                        <select name="category" id="category" className={form.inputs} value={category} onChange={(e)=>setCategory(e.target.value)} required>
+                        <select name="category" id="category" className={form.inputs} value={category} onChange={(e) => setCategory(e.target.value)} required>
                             <option value="">Choose category</option>
                             <option value="jewellery">Jewellery</option>
                             <option value="miniature">Miniature</option>
@@ -108,7 +114,7 @@ const ProductUpdate = () => {
                     </div>
                     <div className={form.inputbox}>
                         <label htmlFor="material">Product material:- </label>
-                        <select name="material" id="material" className={form.inputs} value={material} onChange={(e)=>setMaterial(e.target.value)} required>
+                        <select name="material" id="material" className={form.inputs} value={material} onChange={(e) => setMaterial(e.target.value)} required>
                             <option value="">Choose material</option>
                             <option value="glass">Glass</option>
                             <option value="stones">Stones</option>
@@ -131,7 +137,7 @@ const ProductUpdate = () => {
                             name='description'
                             placeholder='Enter product description'
                             value={description}
-                            onChange={(e)=>setDescription(e.target.value)}
+                            onChange={(e) => setDescription(e.target.value)}
                             required
                         />
                     </div>
@@ -144,7 +150,7 @@ const ProductUpdate = () => {
                             className={form.inputs}
                             placeholder='Enter Price'
                             value={price}
-                            onChange={(e)=>setPrice(e.target.value)}
+                            onChange={(e) => setPrice(e.target.value)}
                             required
                         />
                     </div>
@@ -157,7 +163,7 @@ const ProductUpdate = () => {
                             className={form.inputs}
                             placeholder='Available stock'
                             value={stock}
-                            onChange={(e)=>setStock(e.target.value)}
+                            onChange={(e) => setStock(e.target.value)}
                             required
                         />
                     </div>
@@ -171,7 +177,7 @@ const ProductUpdate = () => {
                                 name='height'
                                 placeholder='Height'
                                 value={height}
-                                onChange={(e)=>setHeight(e.target.value)}
+                                onChange={(e) => setHeight(e.target.value)}
                                 required
                             />
                             {/* <br /> */}
@@ -182,7 +188,7 @@ const ProductUpdate = () => {
                                 name='length'
                                 placeholder='Length'
                                 value={length}
-                                onChange={(e)=>setLength(e.target.value)}
+                                onChange={(e) => setLength(e.target.value)}
                                 required
                             />
                             {/* <br /> */}
@@ -193,11 +199,11 @@ const ProductUpdate = () => {
                                 name='width'
                                 placeholder='Width'
                                 value={width}
-                                onChange={(e)=>setWidth(e.target.value)}
+                                onChange={(e) => setWidth(e.target.value)}
                                 required
                             />
                             {/* <br /> */}
-                            <select name="dimenstionUnit" id="stock"  className={form.input} value={dimenstionUnit} onChange={(e)=>setDimenstionUnit(e.target.value)} required>
+                            <select name="dimenstionUnit" id="stock" className={form.input} value={dimenstionUnit} onChange={(e) => setDimenstionUnit(e.target.value)} required>
                                 <option value="">Choose unit</option>
                                 <option value="cm">centimeter</option>
                                 <option value="m">meter</option>
@@ -217,11 +223,11 @@ const ProductUpdate = () => {
                                 className={form.input}
                                 placeholder='weight'
                                 value={weight}
-                                onChange={(e)=>setWeigth(e.target.value)}
+                                onChange={(e) => setWeigth(e.target.value)}
                                 required
                             />
                             {/* <br /> */}
-                            <select name="weightUnit" id="weight"  className={form.input} value={weightUnit} onChange={(e)=>setWeightUnit(e.target.value)} required>
+                            <select name="weightUnit" id="weight" className={form.input} value={weightUnit} onChange={(e) => setWeightUnit(e.target.value)} required>
                                 <option value="">Choose weight unit</option>
                                 <option value="gm">gm</option>
                                 <option value="Kg">Kg</option>
@@ -230,7 +236,7 @@ const ProductUpdate = () => {
                     </div>
 
                     <button type='submit' className={form.submitbtn}>Update</button>
-                    <button className={form.submitbtn} onClick={()=>navigate('/profile')}>Cancel</button>
+                    <button className={form.submitbtn} onClick={() => navigate('/profile')}>Cancel</button>
                 </form>
             </div>
         </div>

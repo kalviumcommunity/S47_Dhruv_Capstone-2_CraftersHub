@@ -7,12 +7,18 @@ const Product = () => {
     const [Data, setData] = useState([])
     const [imageIndexes, setImageIndexes] = useState([]);
     const [error, setError] = useState('')
-    const [userData,setUserData]=useState([])
+    const [userData, setUserData] = useState([])
     const navigate = useNavigate()
-    const fetchUser =async ()=>{
+    const fetchUser = async () => {
         try {
-            const response = await axios.get('http://localhost:9000/login/success',{withCredentials:true})
-            console.log("response",response);
+            let headers = { withCredentials: true }
+            const id = localStorage.getItem('id')
+
+            if (id) {
+                headers['Authorization'] = `Bearer ${id}`
+            }
+            const response = await axios.get('http://localhost:9000/login/success', { headers })
+            console.log("response", response);
             setUserData(response)
         } catch (error) {
             console.log(error);
@@ -25,9 +31,9 @@ const Product = () => {
         const fetchData = async () => {
             setError('')
             try {
-                const res = await axios.get('http://localhost:9000/product',{
-                    headers:{
-                        "Content-Type":"application/json",
+                const res = await axios.get('http://localhost:9000/product', {
+                    headers: {
+                        "Content-Type": "application/json",
                         "Authorization": localStorage.getItem('email')
                     }
                 })
@@ -67,10 +73,10 @@ const Product = () => {
 
     return (
         <div>
-            {error ? 
-            <div>
-            <h1>{error}</h1>
-            </div> :
+            {error ?
+                <div>
+                    <h1>{error}</h1>
+                </div> :
                 <div className={home.body}>
                     <Navbar />
                     <h1>Product</h1>
@@ -101,7 +107,7 @@ const Product = () => {
                                         // {item.stock > 10 ? <h1></h1> : <h1></h1>}
                                         : <h1> Out of stock</h1>}
                                     <br />
-                                    {item.stock >0 && <button onClick={()=>navigate(`/book/${item._id}`)}>Buy Now</button>}
+                                    {item.stock > 0 && <button onClick={() => navigate(`/book/${item._id}`)}>Buy Now</button>}
                                 </div>
                             </div>
                         )

@@ -13,7 +13,13 @@ const Profile = () => {
     const fetchUser = async () => {
       try {
         //Get User
-        const userResponse = await axios.get('http://localhost:9000/login/success', { withCredentials: true })
+        let headers = {withCredentials:true}
+        const id = localStorage.getItem('id') 
+
+        if(id){
+          headers['Authorization'] = `Bearer ${id}`
+        }
+        const userResponse = await axios.get('http://localhost:9000/login/success', { headers })
 
         //Get product
         const productResponse = await axios.get('http://localhost:9000/product')

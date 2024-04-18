@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,Link} from 'react-router-dom'
 const Signup = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -11,6 +11,7 @@ const Signup = () => {
   const [confirmPassword,setConfirmPassword] = useState('')
   const navigate = useNavigate()
   const [validOtp,setValidOTP] = useState('')
+
   const onSignupBtn = (e) => {
     e.preventDefault()
     if(otpGenerated){
@@ -24,8 +25,11 @@ const Signup = () => {
         validOtp
       }).then(res => {
         console.log(res);
+        localStorage.setItem("id",res.data._id)
+        navigate('/')
       }).catch((error) => {
-        alert(error.response.data.message)
+        console.log(error);
+        alert(error.response.data)
       })
     }else{
       alert('Password not match')
@@ -39,7 +43,13 @@ const Signup = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://localhost:9000/login/success', { withCredentials: true })
+        let headers = {withCredentials:true}
+        const id = localStorage.getItem('id') 
+
+        if(id){
+          headers['Authorization'] = `Bearer ${id}`
+        }
+        const response = await axios.get('http://localhost:9000/login/success', { headers })
         console.log("response", response);
         navigate('/')
       } catch (error) {
@@ -97,6 +107,7 @@ const Signup = () => {
         <button type='submit'>SignUp</button>
       </form>
       <h1>or</h1>
+      <p>Not have an account? <Link to={'/login'}>Login</Link></p>
       <button onClick={googlesignuup}>Continue wth google</button>
     </div>
   )

@@ -28,7 +28,13 @@ const Form = () => {
 
     const fetchUser =async ()=>{
         try {
-            const response = await axios.get('http://localhost:9000/login/success',{withCredentials:true})
+            let headers = {withCredentials:true}
+        const id = localStorage.getItem('id') 
+
+        if(id){
+          headers['Authorization'] = `Bearer ${id}`
+        }
+            const response = await axios.get('http://localhost:9000/login/success',{headers})
             console.log("response",response);
             setUserData(response.data.user)
         } catch (error) {
@@ -267,7 +273,7 @@ const Form = () => {
                     {errors.ownerImg && touched.ownerImg ? <p className={form.error}>{errors.ownerImg}</p> : null}
                     <br />
                     <button type='submit' className={form.submitbtn}>Submit</button>
-                    <button className={form.submitbtn}>Cancel</button>
+                    <button className={form.submitbtn} onClick={()=>navigate('/profile')}>Cancel</button>
                 </form>
             </div>
         </div>
