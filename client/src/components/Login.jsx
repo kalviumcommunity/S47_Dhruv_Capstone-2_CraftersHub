@@ -9,23 +9,35 @@ const Login = () => {
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  const onLoginBtn = (e) => {
-    setError('')
-    e.preventDefault()
-    console.log(email, password);
-    axios.post('http://localhost:9000/login', {
-      username: email,
-      password
-    }).then(res => {
-      console.log("res",res);
-      // navigate('/product')
 
-    }).catch(err => {
-      console.log(err);
-      setError(err)
-    })
+  const onLoginBtn = async (e)=>{
+    e.preventDefault()
+    try {
+      const response = await axios.post('http://localhost:9000/login', {
+        username: email,
+        password
+      })
+      console.log(response);
+      // fetchUser()
+      navigate('/')
+    } catch (error) {
+      console.log("login error",error);
+    }
   }
-  useEffect(() => {
+  
+
+    // axios.post('http://localhost:9000/login', {
+    //   username: email,
+    //   password
+    // }).then(res => {
+    //   console.log("res",res);
+    //   navigate('/')
+    // }).catch(err => {
+    //   console.log(err);
+    //   setError(err)
+    // })
+
+  // useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get('http://localhost:9000/login/success', { withCredentials: true })
@@ -35,8 +47,7 @@ const Login = () => {
         console.log(error);
       }
     }
-    fetchUser()
-  }, [])
+  // }, [])
 
 
   const googlePage = () => {
@@ -53,7 +64,7 @@ const Login = () => {
         </div>
         <div>
           <label htmlFor="password">Password:- </label>
-          <input type="text" name="password" required id="password" placeholder='Enter your password' onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" name="password" required id="password" placeholder='Enter your password' onChange={(e) => setPassword(e.target.value)} />
         </div>
         <p style={{color:"blue",cursor:"pointer"}} onClick={()=>navigate('/forgetPassword')}>Forget password?</p>
         <button type='submit'>Login</button>

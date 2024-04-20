@@ -73,7 +73,7 @@ const Product = () => {
             </div> :
                 <div className={home.body}>
                     <Navbar />
-                    <h1>Home</h1>
+                    <h1>Product</h1>
                     {Data.map((item, index) => {
                         return (
                             <div key={item._id} className={home.box}>

@@ -11,6 +11,7 @@ import Error from './components/Error'
 import EditProfile from './components/EditProfile'
 import ProductUpdate from './components/ProductUpdate'
 import ForgetPassword from './components/ForgetPassword'
+import ResetPassword from './components/ResetPassword'
 function App() {
 
   return (
@@ -26,6 +27,8 @@ function App() {
       <Route path='/updateProfile/:id' element={<EditProfile/>}></Route>
       <Route path='/updateProduct/:id' element={<ProductUpdate/>}></Route>
       <Route path='/forgetPassword' element={<ForgetPassword/>}></Route>
+      <Route path='/resetPassword/:id/:token' element={<ResetPassword/>}></Route>
+      
     </Routes>
     </>
   )
