@@ -101,7 +101,7 @@ const Product = () => {
                                         // {item.stock > 10 ? <h1></h1> : <h1></h1>}
                                         : <h1> Out of stock</h1>}
                                     <br />
-                                    <button>Buy Now</button>
+                                    {item.stock >0 && <button onClick={()=>navigate(`/book/${item._id}`)}>Buy Now</button>}
                                 </div>
                             </div>
                         )

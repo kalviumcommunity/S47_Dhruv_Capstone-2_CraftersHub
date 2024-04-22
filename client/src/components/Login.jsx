@@ -18,7 +18,7 @@ const Login = () => {
         password
       })
       console.log(response);
-      // fetchUser()
+      fetchUser()
       navigate('/')
     } catch (error) {
       console.log("login error",error);

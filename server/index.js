@@ -15,7 +15,8 @@ const corsOptions = {
   };
   app.use(cors(corsOptions))
   app.use(express.json())
-
+  app.use(express.urlencoded({ extended: true }));
+  
 mongoose.connect(process.env.MONGOOSE_URL,{
     dbName:"CraftersHub"
 }).then(()=>{
