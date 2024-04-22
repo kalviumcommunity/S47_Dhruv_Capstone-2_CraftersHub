@@ -15,7 +15,9 @@ const schema = new mongoose.Schema({
     weight : String,
     productImg : [{ type: String}],
     ownerImg : [{type : String}]
-})
+
+    //createdAt, updatedAt
+},{timestamps:true})
 
 const productModel = mongoose.model("product",schema)
 

@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
     address : String,
     password : String,
     ownerImg : [{type: String}]
-})
+    
+    //createdAt, updatedAt
+},{timestamps:true})
 
 const userModel = mongoose.model('user',userSchema)
 

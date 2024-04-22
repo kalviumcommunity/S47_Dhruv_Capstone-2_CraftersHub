@@ -23,13 +23,16 @@ const ProductUpdate = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                let headers = { withCredentials: true }
+                // let headers = { withCredentials: true }
                 const id = localStorage.getItem('id')
 
-                if (id) {
-                    headers['Authorization'] = `Bearer ${id}`
-                }
-                const response = await axios.get('http://localhost:9000/login/success', { headers })
+                // if (id) {
+                //     headers['Authorization'] = `Bearer ${id}`
+                // }
+                const response = await axios.get('http://localhost:9000/login/success' ,(id)?  {
+                    headers:{
+                      'Authorization': `Bearer ${id}`,
+                    }}:{ withCredentials: true })
                 setuser(response.data.user)
             } catch (error) {
                 console.log(error);

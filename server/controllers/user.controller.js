@@ -16,7 +16,17 @@ class User {
         }
     }
 
-
+    //Get users other than login
+    static GetOtherUser = async (req, res) => {
+        try {
+            const { senderId } = req.query
+            console.log(senderId);
+            const filteredUser = await userModel.find({ _id: { $ne: senderId } }).select("-password")
+            res.json(filteredUser)
+        } catch (error) {
+            res.status('500').json(error)
+        }
+    }
     //Post request 
     static PostUser = async (req, res) => {
         try {
@@ -101,11 +111,11 @@ class User {
         try {
             const { id, token } = req.params
             const { password } = req.body
-            console.log(password);
+            // console.log(password);
             const verifyResult = jwt.verify(token, process.env.JWT_SECRET)
-            console.log(verifyResult);
+            // console.log(verifyResult);
             const hashedPassword = await bcrypt.hash(password, 10)
-            console.log(password, hashedPassword);
+            // console.log(password, hashedPassword);
             await userModel.findByIdAndUpdate(id, { password: hashedPassword })
             res.send("password changed")
         } catch (error) {
@@ -116,11 +126,72 @@ class User {
     //OTP Verification
     static OTPVerification = async (req, res) => {
         const { email } = req.body
-        console.log("otp body", email);
+        // console.log("otp body", email);
         const Otp = generatedOtp()
-        console.log("otp", Otp);
+        // console.log("otp", Otp);
         otpSignUp(email, Otp)
         res.json({ validOTP: Otp })
+    }
+
+    //Logout
+    static Logout = (req, res, next) => {
+        req.logOut(function (err) {
+            if (err) {
+                return next(err)
+            }
+            console.log("logout");
+            res.redirect('http://localhost:5173/')
+        })
+    }
+
+    //Login route passport
+    static LoginLocal = async (req, res) => {
+        try {
+            if (req.user) {
+                // console.log("auth", req.user);
+                req.session.user = req.user
+                res.json({ user: req.user })
+            }
+            else {
+                console.log("auth fail");
+                res.status(401).send('Authentication failed');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    //Success Login
+    static SuccessLogin = async (req, res) => {
+        try {
+            const header = req.headers['authorization'];
+            // console.log("headers", header);
+            // console.log("login req.user:- ", req.user);
+    
+            let user
+            if (header) {
+                try {
+                    const id = header.replace("Bearer ", '')
+                    user = await userModel.findById(id)
+                    // console.log("id", id);
+                    // console.log("id user", user);
+                } catch (error) {
+                    console.log("error in find user", error);
+                }
+            }
+            if (!user) {
+                user = req.user
+                // console.log("user auth ",user);
+            }
+            // console.log("user",user);
+            if (user) {
+                res.json({ user })
+            } else {
+                res.status(400).json({ message: "Not authenticated" })
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

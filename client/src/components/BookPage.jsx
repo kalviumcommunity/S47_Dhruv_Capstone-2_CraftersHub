@@ -7,7 +7,7 @@ const BookPage = () => {
     const [product, setData] = useState([])
     const [imgIndex, setIndex] = useState(0)
     const [user, setUser] = useState([])
-    
+    const [reload,setreload] = useState(false)
     const navigate = useNavigate()
     useEffect(() => {
         setIndex(0)
@@ -15,6 +15,7 @@ const BookPage = () => {
             try {
                 const responnse = await axios.get(`http://localhost:9000/product/${id}`)
                 // console.log(responnse);
+                setreload(true)
                 setData(responnse.data)
                 console.log(product);
             } catch (error) {
@@ -24,33 +25,33 @@ const BookPage = () => {
 
         const fetchUser = async () => {
             try {
-                let headers = { withCredentials: true }
+                // let headers = { withCredentials: true }
                 const id = localStorage.getItem('id')
-
-                if (id) {
-                    headers['Authorization'] = `Bearer ${id}`
-                }
-                const response = await axios.get('http://localhost:9000/login/success', { headers })
-                // console.log("response");
+                const response = await axios.get('http://localhost:9000/login/success',(id)?  {
+                    headers:{
+                      'Authorization': `Bearer ${id}`,
+                    }}:{ withCredentials: true })
                 // setUser()
             } catch (error) {
                 console.log(error);
                 navigate('/error')
             }
         }
-
+        console.log("user",user);
         const fetchOwner = async()=>{
             try {
                 const owner = await axios('http://localhost:9000/user')
                 console.log("Owner",owner.data);
                 console.log("product data",product.email);
                 const actualUser = owner.data.filter((item)=>item.username === product.email)
+
                 console.log("actual user",actualUser);
                 setUser(actualUser[0])
             } catch (error) {
                 console.log(error); 
             }
         }
+
         Promise.all([fetchUser(), fetchData(), fetchOwner()]).then(() => {
             // All functions have completed execution
             console.log("All functions executed successfully");
@@ -58,9 +59,10 @@ const BookPage = () => {
             console.log("Error occurred:", error);
         });
 
-    }, [])
+    }, [id,reload])
 
-    console.log(user[0]);
+
+    // console.log(user[0]);
     const handelPayment = async () => {
         // navigate('/payment',{state:{price : data.price}})
         try {
@@ -143,7 +145,7 @@ const BookPage = () => {
                     <br />
                     <span>Material:- {product.material}</span>
                     <br />
-                    {user.address && <span>Product manufacture:- <span>{user.address}</span></span>}
+                    {user && user.address && <span>Product manufacture:- <span>{user.address}</span></span>}
 
                     {product.stock > 0 ?
                         <h1>{product.stock > 10 ? "In stock" :
@@ -156,13 +158,13 @@ const BookPage = () => {
             <div>
                 <h1>Dealer information</h1>
                 <div>
-                    <img src={user.ownerImg && user.ownerImg[0]} alt="Owner image" />
+                    <img src={user && user.ownerImg && user.ownerImg[0]} alt="Owner image" />
                     <div>
-                        {user.name && <span>Owner name:- <span>{user.name}</span></span>}
+                        {user && user.name && <span>Owner name:- <span>{user.name}</span></span>}
                         <br />
-                        {user.username && <span>Email:- <span>{user.username}</span></span>}
+                        {user && user.username && <span>Email:- <span>{user.username}</span></span>}
                         <br />
-                        {user.contact && <span>Contact no.:- <span>{user.contact}</span></span>}
+                        {user && user.contact && <span>Contact no.:- <span>{user.contact}</span></span>}
                         <br />
                         <button>Start chat</button>
                     </div>

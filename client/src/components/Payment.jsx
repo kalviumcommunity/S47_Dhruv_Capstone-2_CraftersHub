@@ -10,13 +10,16 @@ const Payment = () => {
     //fetch user
     const fetchUser = async () => {
       try {
-        let headers = { withCredentials: true }
+        // let headers = { withCredentials: true }
         const id = localStorage.getItem('id')
 
-        if (id) {
-          headers['Authorization'] = `Bearer ${id}`
-        }
-        const response = await axios.get('http://localhost:9000/login/success', { headers })
+        // if (id) {
+        //   headers['Authorization'] = `Bearer ${id}`
+        // }
+        const response = await axios.get('http://localhost:9000/login/success',(id)?  {
+          headers:{
+            'Authorization': `Bearer ${id}`,
+          }}:{ withCredentials: true })
         setUser(response.data.user)
         console.log("user Available");
       } catch (error) {

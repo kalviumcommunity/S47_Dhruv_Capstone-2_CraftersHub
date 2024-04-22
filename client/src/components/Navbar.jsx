@@ -10,18 +10,21 @@ const Navbar = () => {
   const fetchUser = async () => {
     // let head
     const id = localStorage.getItem('id')
-    let headers = { withCredentials: true }
-    if (id) {
-      headers['Authorization'] = `Bearer ${id}`
-      // head= {headers : {
-      //   'Authorization': `Bearer ${id}`
-      // }}
-      console.log("id available");
-    // }else{
-    //   head = { withCredentials: true }
-    }
+    // let headers = { withCredentials: true }
+    // if (id) {
+    //   headers['Authorization'] = `Bearer ${id}`
+    //   // head= {headers : {
+    //   //   'Authorization': `Bearer ${id}`
+    //   // }}
+    //   console.log("id available");
+    // // }else{
+    // //   head = { withCredentials: true }
+    // }
     try {
-      const response = await axios.get('http://localhost:9000/login/success', { headers })
+      const response = await axios.get('http://localhost:9000/login/success',(id)?  {
+        headers:{
+          'Authorization': `Bearer ${id}`,
+        }}:{ withCredentials: true })
       console.log("response", response);
       setUserData(response.data.user)
     } catch (error) {
@@ -50,7 +53,7 @@ const Navbar = () => {
               <span className={nav.name}>Welcome {userData.name}</span>
               <button className={nav.btn} onClick={() => navigate('/product')} >Products</button>
               <button className={nav.btn} onClick={() => navigate('/profile')}>Profile</button>
-              <button className={nav.btn}>Chats</button>
+              <button className={nav.btn} onClick={()=> navigate('/chat')}>Chats</button>
               <button onClick={logout}>Logout</button>
             </div>) :
             <>

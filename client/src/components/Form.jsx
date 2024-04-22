@@ -2,7 +2,7 @@ import React from 'react'
 import { useFormik } from 'formik'
 import { ValidationSchemaForm } from '../Validation/formValidation'
 import axios from 'axios'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import form from '../css/form.module.css'
 import { useNavigate } from 'react-router-dom'
 const initialValues = {
@@ -23,19 +23,23 @@ const initialValues = {
 }
 
 const Form = () => {
-    const [user,setUserData] = useState([])
+    const [user, setUserData] = useState([])
     const navigate = useNavigate()
 
-    const fetchUser =async ()=>{
+    const fetchUser = async () => {
         try {
-            let headers = {withCredentials:true}
-        const id = localStorage.getItem('id') 
+            // let headers = {withCredentials:true}
+            const id = localStorage.getItem('id')
 
-        if(id){
-          headers['Authorization'] = `Bearer ${id}`
-        }
-            const response = await axios.get('http://localhost:9000/login/success',{headers})
-            console.log("response",response);
+            // if(id){
+            //   headers['Authorization'] = `Bearer ${id}`
+            // }
+            const response = await axios.get('http://localhost:9000/login/success', (id) ? {
+                headers: {
+                    'Authorization': `Bearer ${id}`,
+                }
+            } : { withCredentials: true })
+            console.log("response", response);
             setUserData(response.data.user)
         } catch (error) {
             console.log(error);
@@ -43,9 +47,9 @@ const Form = () => {
         }
     }
     console.log(user);
-    useEffect(()=>{
+    useEffect(() => {
         fetchUser()
-    },[])
+    }, [])
     const { values, handleSubmit, errors, touched, handleChange, setFieldValue } = useFormik({
         initialValues,
         validationSchema: ValidationSchemaForm,
@@ -60,7 +64,7 @@ const Form = () => {
             formData.append('stock', values.stock)
             formData.append('dimensions', `${values.length} x ${values.width} x ${values.height} (in ${values.dimenstionUnit})`)
             formData.append('weight', `${values.weight} ${values.weightUnit}`)
-            formData.append('email',user.username)
+            formData.append('email', user.username)
             values.productImg.forEach((img, index) => {
                 formData.append(`productImg`, img)
             })
@@ -273,7 +277,7 @@ const Form = () => {
                     {errors.ownerImg && touched.ownerImg ? <p className={form.error}>{errors.ownerImg}</p> : null}
                     <br />
                     <button type='submit' className={form.submitbtn}>Submit</button>
-                    <button className={form.submitbtn} onClick={()=>navigate('/profile')}>Cancel</button>
+                    <button className={form.submitbtn} onClick={() => navigate('/profile')}>Cancel</button>
                 </form>
             </div>
         </div>

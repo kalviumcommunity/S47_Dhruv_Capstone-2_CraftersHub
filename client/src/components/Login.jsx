@@ -29,17 +29,21 @@ const Login = () => {
       const fetchUser = async () => {
       try {
         const id = localStorage.getItem('id') 
-        let headers = {withCredentials:true}
-        // let head;
-        if(id){
-          // head={headers:{'Authorization' : `Bearer ${id}`}}
-          headers['Authorization'] = `Bearer ${id}`
-          console.log("id available", head);
-        // }else{
-        //   head = { withCredentials: true }
-        }
+        // let headers = {withCredentials:true}
+        // // let head;
+        // if(id){
+        //   // head={headers:{'Authorization' : `Bearer ${id}`}}
+        //   headers['Authorization'] = `Bearer ${id}`
+        //   console.log("id available", head);
+        // // }else{
+        // //   head = { withCredentials: true }
+        // }
         
-        const response = await axios.get('http://localhost:9000/login/success',headers )
+        const response = await axios.get('http://localhost:9000/login/success',(!id)? { withCredentials: true } : {
+          headers:{
+            'Authorization': `Bearer ${id}`,
+          }
+        })
         console.log("response", response);
         navigate('/')
       } catch (error) {

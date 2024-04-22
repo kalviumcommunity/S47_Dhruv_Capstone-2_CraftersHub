@@ -14,7 +14,8 @@ const paymentSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+    //createdAt, updatedAt
+},{timestamps:true})
 
 const paymentModel = mongoose.model("payment",paymentSchema)
 

@@ -11,13 +11,16 @@ const Product = () => {
     const navigate = useNavigate()
     const fetchUser = async () => {
         try {
-            let headers = { withCredentials: true }
+            // let headers = { withCredentials: true }
             const id = localStorage.getItem('id')
 
-            if (id) {
-                headers['Authorization'] = `Bearer ${id}`
-            }
-            const response = await axios.get('http://localhost:9000/login/success', { headers })
+            // if (id) {
+            //     headers['Authorization'] = `Bearer ${id}`
+            // }
+            const response = await axios.get('http://localhost:9000/login/success' ,(id)?  {
+                headers:{
+                  'Authorization': `Bearer ${id}`,
+                }}:{ withCredentials: true })
             console.log("response", response);
             setUserData(response)
         } catch (error) {

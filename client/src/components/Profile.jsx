@@ -13,13 +13,16 @@ const Profile = () => {
     const fetchUser = async () => {
       try {
         //Get User
-        let headers = {withCredentials:true}
+        // let headers = {withCredentials:true}
         const id = localStorage.getItem('id') 
 
-        if(id){
-          headers['Authorization'] = `Bearer ${id}`
-        }
-        const userResponse = await axios.get('http://localhost:9000/login/success', { headers })
+        // if(id){
+        //   headers['Authorization'] = `Bearer ${id}`
+        // }
+        const userResponse = await axios.get('http://localhost:9000/login/success',(id)?  {
+          headers:{
+            'Authorization': `Bearer ${id}`,
+          }}:{ withCredentials: true })
 
         //Get product
         const productResponse = await axios.get('http://localhost:9000/product')
