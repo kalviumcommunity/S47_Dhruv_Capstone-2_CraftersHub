@@ -1,12 +1,12 @@
 import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,Link } from 'react-router-dom'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   // const [userdata,setData] = useState([])
-  const [error, setError] = useState('')
+  // const [error, setError] = useState('')
   const navigate = useNavigate()
 
 
@@ -18,36 +18,40 @@ const Login = () => {
         password
       })
       console.log(response);
-      fetchUser()
+      localStorage.setItem("id",response.data.user._id)
       navigate('/')
     } catch (error) {
       console.log("login error",error);
     }
   }
-  
-
-    // axios.post('http://localhost:9000/login', {
-    //   username: email,
-    //   password
-    // }).then(res => {
-    //   console.log("res",res);
-    //   navigate('/')
-    // }).catch(err => {
-    //   console.log(err);
-    //   setError(err)
-    // })
-
-  // useEffect(() => {
-    const fetchUser = async () => {
+    
+    useEffect(() => {
+      const fetchUser = async () => {
       try {
-        const response = await axios.get('http://localhost:9000/login/success', { withCredentials: true })
+        const id = localStorage.getItem('id') 
+        // let headers = {withCredentials:true}
+        // // let head;
+        // if(id){
+        //   // head={headers:{'Authorization' : `Bearer ${id}`}}
+        //   headers['Authorization'] = `Bearer ${id}`
+        //   console.log("id available", head);
+        // // }else{
+        // //   head = { withCredentials: true }
+        // }
+        
+        const response = await axios.get('http://localhost:9000/login/success',(!id)? { withCredentials: true } : {
+          headers:{
+            'Authorization': `Bearer ${id}`,
+          }
+        })
         console.log("response", response);
         navigate('/')
       } catch (error) {
         console.log(error);
       }
     }
-  // }, [])
+    fetchUser()
+  }, [])
 
 
   const googlePage = () => {
@@ -70,6 +74,7 @@ const Login = () => {
         <button type='submit'>Login</button>
       </form>
       <p>Or</p>
+      <p>Not have an account? <Link to={'/signup'}>Signup</Link></p>
       <button onClick={googlePage}>Continue with google</button>
     </div>
   )

@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require("mongoose")
 const product = require('./routes/product')
 const auth = require('./routes/auth')
+const message = require('./routes/messages')
 const cors = require('cors')
 const app = express()
 // const passport = require('passport')
@@ -27,6 +28,7 @@ mongoose.connect(process.env.MONGOOSE_URL,{
 
 app.use('/product',product)
 app.use('/',auth)
+app.use('/message',message)
 
 
 app.listen(port,()=>{

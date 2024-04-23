@@ -15,6 +15,8 @@ import ResetPassword from './components/ResetPassword'
 import BookPage from './components/BookPage'
 import Payment from './components/Payment'
 import OrderPlaced from './components/OrderPlaced'
+import ChatList from './components/ChatList'
+import ChatRoom from './components/ChatRoom'
 function App() {
 
   return (
@@ -34,6 +36,8 @@ function App() {
       <Route path='/book/:id' element={<BookPage/>}></Route>
       <Route path='/payment' element={<Payment/>}></Route>
       <Route path='/orderPlaced' element={<OrderPlaced/>}></Route>
+      <Route path='/chat' element={<ChatRoom/>}></Route>
+
     </Routes>
     </>
   )

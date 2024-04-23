@@ -22,51 +22,22 @@ auth.use(passport.session())
 auth.get('/ping', (req, res) => {
     res.send('Dhruv khandelwal')
 })
-auth.get('/user', async (req, res) => {
-    try {
-        const data = await userModel.find({})
-        res.json(data)
-    } catch (error) {
-        res.status(401).send(error)
-    }
-})
+// auth.get('/user', async (req, res) => {
+//     try {
+//         const data = await userModel.find({})
+//         res.json(data)
+//     } catch (error) {
+//         res.status(401).send(error)
+//     }
+// })
 
 
 
 auth.post('/login', passport.authenticate("local"
-, {
-    failureRedirect: "/signup",
-}
-), async (req, res,next) => {
-    console.log(req.body, req.user);
-    try {
-        if (req.user) {
-            console.log("auth", req.user);
-            req.session.user = req.user
-            // res.redirect('/login/success')
-            // next()
-            res.json({user:req.user})
-        }
-        else {
-            console.log("auth fail");
-            res.status(401).send('Authentication failed');
-        }
-    } catch (error) {
-        console.log(error);
+    , {
+        failureRedirect: "/signup",
     }
-// },routeProtector,async(req,res)=>{
-//     console.log("login routeprotector",req.user);
-//     res.send('Success')
-}
-)
-
-// auth.get('/login',(req,res)=>{
-//     console.log("Login user ",req.user);
-//     if(req.user){
-//         res.redirect('/login/success')
-//     }
-//     res.send("user verified")
-// })
+), User.LoginLocal)
 
 auth.get('/auth/google', passport.authenticate("google", { scope: ["profile", "email"] }))
 
@@ -76,36 +47,25 @@ auth.get('/auth/google/callback', passport.authenticate("google", {
     failureRedirect: "http://localhost:9000/login"
 }))
 
-auth.get('/login/success', (req, res) => {
-    // console.log("user:- ",req);
-    console.log("login req.user:- ", req.session);
-    if (req.isAuthenticated()) {
-        res.json({ user: req.user })
-    } else {
-        res.status(400).json({ message: "Not authenticated" })
-    }
-})
+auth.get('/login/success', User.SuccessLogin)
 
-auth.get('/logout', (req, res, next) => {
-    req.logOut(function (err) {
-        if (err) {
-            return next(err)
-        }
-        console.log("logout");
-        res.redirect('http://localhost:5173/')
-    })
-})
+//Logout
+auth.get('/logout', User.Logout )
 
 // User routes
+auth.get('/user',User.GetUser)
+
 auth.get('/update/:id', User.GetUserById)
 
-auth.post('/signup',User.PostUser)
+auth.get('/getOtherUser',User.GetOtherUser)
+
+auth.post('/signup', User.PostUser)
 
 auth.put('/update/:id', upload.single('ownerImg'), User.PutUser)
 
-auth.post('/forgotPassword',User.ForgotPassword)
+auth.post('/forgotPassword', User.ForgotPassword)
 
-auth.post('/resetPassword/:id/:token',User.ResetPassword)
+auth.post('/resetPassword/:id/:token', User.ResetPassword)
 
-auth.post('/otpVerification',User.OTPVerification)
+auth.post('/otpVerification', User.OTPVerification)
 module.exports = auth
