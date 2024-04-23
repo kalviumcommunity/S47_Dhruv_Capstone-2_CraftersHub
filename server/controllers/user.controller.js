@@ -20,7 +20,7 @@ class User {
     static GetOtherUser = async (req, res) => {
         try {
             const { senderId } = req.query
-            console.log(senderId);
+            // console.log(senderId);
             const filteredUser = await userModel.find({ _id: { $ne: senderId } }).select("-password")
             res.json(filteredUser)
         } catch (error) {

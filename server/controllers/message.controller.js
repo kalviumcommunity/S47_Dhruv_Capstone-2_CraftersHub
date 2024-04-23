@@ -45,16 +45,16 @@ class Messages {
 
     static GetMessage = async (req, res) => {
         try {
-            const { senderId } = req.body
+            const { senderId } = req.query
             const { id: userToSendId } = req.params
-
             const conversation = await Conversation.findOne({
                 participants: { $all: [senderId, userToSendId] }
             }).populate("message")
 
-            if (!conversation) res.json([])
-
-            const messages = conversation.message
+            if (!conversation || !conversation.message){ 
+                res.json([])
+            }
+            const messages = conversation.message || []
 
             res.json(messages)
         } catch (error) {
