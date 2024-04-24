@@ -67,11 +67,11 @@ const BookPage = () => {
         // navigate('/payment',{state:{price : data.price}})
         try {
             const response = await axios.post('http://localhost:9000/product/payment', {
-                price: data.price
+                price: product.price
             })
             console.log(response.data.order.amount);
             const options = {
-                amount: data.price && data.price,
+                amount: product.price && product.price,
                 key: import.meta.env.VITE_RAZORPAY_API_KEY,
                 currency: "INR",
                 name: "Crafters hub",
