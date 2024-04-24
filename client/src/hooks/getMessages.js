@@ -1,9 +1,10 @@
 import { useEffect } from "react"
 import useConversation from "../Zustand/getConversation"
 import axios from "axios"
+import useListenMessage from "./useListenMessage"
 const getMessages = (user) => {
     const { messages, selectedConversation, setMessages } = useConversation()
-
+    // useListenMessage()
     useEffect(() => {
 
         const getMessage = async (user) => {
@@ -22,6 +23,8 @@ const getMessages = (user) => {
             
         }
         if (selectedConversation?._id) getMessage(user)
+
+        // return useListenMessage()
     }, [selectedConversation?._id, setMessages,user._id])
 
     return { messages }

@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import useConversation from '../Zustand/getConversation'
 import SendMessage from '../hooks/SendMessage'
 import getMessages from '../hooks/getMessages'
-
+import {useSocketContext} from '../socket/Socket'
+import useListenMessage from '../hooks/useListenMessage'
 const ChatList = () => {
     const [user, setUser] = useState([])
     const [list, setList] = useState([])
@@ -15,7 +16,10 @@ const ChatList = () => {
     const {sendMessage} = SendMessage()
     const {messages}= getMessages(user)
     const lastMessageRef = useRef()
-    console.log("messages",messages);
+    const {onlineUser} = useSocketContext()
+    
+    console.log("online",onlineUser);
+    useListenMessage()
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -58,6 +62,11 @@ const ChatList = () => {
         }, 100);
     }, [fechData,messages])
 
+    // useEffect(() => {
+    //     if (user && selectedConversation?._id) {
+    //         getMessages(user) // Fetch initial messages
+    //     }
+    // }, [user, selectedConversation?._id])
     const OnsubmitBtn = async (e)=>{
         e.preventDefault()
         if(!newMessage) return
@@ -87,6 +96,7 @@ const ChatList = () => {
                         <div key={item._id} onClick={() => setSelectedConversation(item)} style={{ color: selectedConversation && selectedConversation._id === item._id ? 'blue' : 'black' }}>
                             <img src={item.ownerImg[0]} alt="" />
                             <p>{item.name}</p>
+                            {onlineUser.includes(item._id)? <p style={{color:"green"}}>online</p>: null}
                             <span>{item.username}</span>
                             <hr />
                         </div>
