@@ -57,21 +57,23 @@ const Login = () => {
   }
 
   return (
-    <div className={login.body}>
+    <div className= "flex">
       <div className={login.imgdiv}>
         <img src={loginimg} alt="login image" className={login.img} />
       </div>
-      <div className={login.right}>
+      <div 
+      className="flex flex-col w-40vw items-center justify-center text-center ml-10"
+      >
         <Person2
           color='primary'
           sx={{ fontSize: 80 }}
-          className={login.loginicon}
+          className="mx-auto"
         />
-        <h2 className={login.heading}>Login</h2>
-        <form onSubmit={(e) => onLoginBtn(e)} className={login.form}>
-          <div className={login.inputdiv}>
+        <h2 className="text-5xl font-light mt-1 mb-10">Login</h2>
+        <form onSubmit={(e) => onLoginBtn(e)} className="flex flex-col items-center">
+          <div className='h-20'>
             <TextField
-              className={login.input}
+              className="w-80"
               type="email"
               name="username"
               required
@@ -89,9 +91,9 @@ const Login = () => {
               }}
               onChange={(e) => setEmail(e.target.value)} />
           </div>
-          <div className={login.inputdiv2}>
+          <div >
             <TextField
-              className={login.input}
+              className="w-80"
               type="password"
               name="password"
               required
@@ -108,7 +110,7 @@ const Login = () => {
                 )
               }}
               onChange={(e) => setPassword(e.target.value)} />
-            <p style={{ color: "blue", cursor: "pointer" }} onClick={() => navigate('/forgetPassword')} className={login.forgetPassword}>Forget password?</p>
+            <p style={{ color: "blue", cursor: "pointer" }} onClick={() => navigate('/forgetPassword')} className="text-1xl mb-6 ml-48">Forget password?</p>
           </div>
           <Button
             className={login.loginbtn}
@@ -118,10 +120,11 @@ const Login = () => {
             type='submit'
           >Login</Button>
         </form>
-        <div className={login.or}>
-          <hr className={login.hr}/>
+        <div className="flex text-2xl m-2.5">
+          <hr className="h-1 w-44 m-4 bg-slate-300"/>
           <span >Or</span>
-          <hr className={login.hr} />
+          <hr />
+          <hr className="h-1 w-44 m-4 bg-slate-300" />
         </div>
         <Button
           variant='contained'
@@ -130,7 +133,7 @@ const Login = () => {
           startIcon={<Google />}
           onClick={googlePage}
         >Continue with google</Button>
-        <p className={login.navigations}>Not have an account? <Link to={'/signup'} className={login.signupbtn}>Signup</Link></p>
+        <p className="text-1xl mt-2">Not have an account? <Link to={'/signup'} className={login.signupbtn}>Signup</Link></p>
       </div>
 
     </div>

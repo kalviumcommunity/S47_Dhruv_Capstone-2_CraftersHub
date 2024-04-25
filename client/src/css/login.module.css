@@ -3,78 +3,60 @@
     padding: 0;
 }
 
-.body{
-    display: flex;
-}
 
 .img{
     size: 100% 100%;
     width: 60vw;
     height: 100vh;
-    /* box-shadow: 5px 10px 10px black; */
-}
-/* .imgdiv{
-    box-shadow: ;
-} */
-
-.right{
-    display: flex;
-    flex-direction: column;
-    width: 40vw;
-    align-content: center;
-    text-align: center;
-    margin: 10vh;
-    /* justify-content: center; */
-}
-.loginicon{
-    margin: 0 auto;
-}
-.heading{
-    font-size: 7vh;
-    font-weight: 100;
-    margin:1vh auto 2vh auto;
-}
-.form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.input{
-    width: 25vw;
-    /* height: 12vh; */
-}
-.navigations{
-    font-size: 3vh;
-    margin: 2vh;
-}
-.forgetPassword{
-    font-size: 2.5vh;
-    margin: 0 0 12vh 16vw;
-
-}
-.inputdiv,.inputdiv2{
-    height: 12vh;
-}
-.inputdiv2{
-    margin-bottom: 2vh;
-}
-.or{
-    display: flex;
-    font-size: 3.5vh;
-    margin: 2.5vh;
-}
-    
-.hr {
-    width: 50%;
-    height: 1px;
-    margin: 1vw;
-    background-color: rgb(202, 202, 202);
 }
 
 .signupbtn{
     color:#0000FF ;
-    /* font-size: 4vh; */
     text-decoration: none;
-    /* margin-left: vw; */
 }
+
+/* .heading{
+    font-size: 7vh;
+    font-weight: 100;
+    margin:1vh auto 2vh auto;
+} */
+
+/* .form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} */
+
+/* .input{
+    width: 25vw;
+    /* height: 12vh; */
+/* } */ 
+/* .navigations{
+    font-size: 3vh;
+    margin: 2vh;
+} */
+/* .forgetPassword{
+    font-size: 2.5vh;
+    margin: 0 0 12vh 16vw;
+
+} */
+/* .inputdiv,.inputdiv2{
+    height: 12vh;
+} */
+/* .inputdiv2{
+    "flex text-2xl m-2.5
+    margin-bottom: 2vh;
+/* } */
+/* .or{
+    /* display: flex; */
+    /* font-size: 3.5vh;
+    margin: 2.5vh;
+}  */
+
+/* .hr {
+    width: 50%;
+    height: 5px;
+    margin: 1vw;
+    background-color: rgb(12, 11, 11);
+} */
+
