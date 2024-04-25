@@ -2,17 +2,18 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import login from '../css/login.module.css'
+import loginimg from '../assets/login.jpg'
+//Material Ui components
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import GoogleIcon from '@mui/icons-material/Google';
+import InputAdornment from '@mui/material/InputAdornment';
+import { Google, Email, LockOpen, Person2 } from '@mui/icons-material'
 import LoginIcon from '@mui/icons-material/Login';
-import EmailIcon from '@mui/icons-material/Email';
-// import InputEndAdornment from '@mui/material/InputEndAdornment'
+
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [userdata,setData] = useState([])
-  // const [error, setError] = useState('')
   const navigate = useNavigate()
 
 
@@ -56,56 +57,82 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={(e) => onLoginBtn(e)}>
-        <div>
-          {/* <label htmlFor="username">Email:- </label> */}
-          <TextField
-            type="email"
-            name="username"
-            required
-            placeholder='Enter your email'
-            label="Enter your Email"
-            variant="outlined"
-            size='small'
-            color='primary'
-            // endIcon={<EmailIcon color='primary'/>}
-            InputEndAdornment={
-              <EmailIcon color='primary' />
-            }
-            onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div>
-          {/* <label htmlFor="password">Password:- </label> */}
-          <TextField
-           type="password"
-            name="password"
-             required 
-             variant="outlined"
-            size='small'
-            color='primary'
-             label="Enter your password"
-              placeholder='Enter your password' 
+    <div className={login.body}>
+      <div className={login.imgdiv}>
+        <img src={loginimg} alt="login image" className={login.img} />
+      </div>
+      <div className={login.right}>
+        <Person2
+          color='primary'
+          sx={{ fontSize: 80 }}
+          className={login.loginicon}
+        />
+        <h2 className={login.heading}>Login</h2>
+        <form onSubmit={(e) => onLoginBtn(e)} className={login.form}>
+          <div className={login.inputdiv}>
+            <TextField
+              className={login.input}
+              type="email"
+              name="username"
+              required
+              placeholder='Enter your email'
+              label="Email Address"
+              variant="outlined"
+              size='medium'
+              color='primary'
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Email color='primary' />
+                  </InputAdornment>
+                )
+              }}
+              onChange={(e) => setEmail(e.target.value)} />
+          </div>
+          <div className={login.inputdiv2}>
+            <TextField
+              className={login.input}
+              type="password"
+              name="password"
+              required
+              variant="outlined"
+              size='medium'
+              color='primary'
+              label="Password"
+              placeholder='Enter your password'
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <LockOpen color='primary' />
+                  </InputAdornment>
+                )
+              }}
               onChange={(e) => setPassword(e.target.value)} />
+            <p style={{ color: "blue", cursor: "pointer" }} onClick={() => navigate('/forgetPassword')} className={login.forgetPassword}>Forget password?</p>
+          </div>
+          <Button
+            className={login.loginbtn}
+            endIcon={<LoginIcon />}
+            variant="contained"
+            size='large'
+            type='submit'
+          >Login</Button>
+        </form>
+        <div className={login.or}>
+          <hr className={login.hr}/>
+          <span >Or</span>
+          <hr className={login.hr} />
         </div>
-        <p style={{ color: "blue", cursor: "pointer" }} onClick={() => navigate('/forgetPassword')}>Forget password?</p>
         <Button
-          endIcon={<LoginIcon />}
-          variant="contained"
-          size='small'
-          type='submit'
-        >Login</Button>
-      </form>
-      <p>Or</p>
-      <p>Not have an account? <Link to={'/signup'}>Signup</Link></p>
-      <Button
-        variant='contained'
-        color='primary'
-        size='small'
-        startIcon={<GoogleIcon />}
-        onClick={googlePage}
-      >Continue with google</Button>
+          variant='contained'
+          color='primary'
+          size='large'
+          startIcon={<Google />}
+          onClick={googlePage}
+        >Continue with google</Button>
+        <p className={login.navigations}>Not have an account? <Link to={'/signup'} className={login.signupbtn}>Signup</Link></p>
+      </div>
+
     </div>
   )
 }

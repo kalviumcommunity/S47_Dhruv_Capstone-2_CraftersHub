@@ -4,7 +4,8 @@ const product = require('./routes/product')
 const auth = require('./routes/auth')
 const message = require('./routes/messages')
 const cors = require('cors')
-const app = express()
+// const app = express()
+const {app, server} = require('./utils/socket')
 // const passport = require('passport')
 // const expressSession = require('express-session')
 require('dotenv').config()
@@ -31,6 +32,6 @@ app.use('/',auth)
 app.use('/message',message)
 
 
-app.listen(port,()=>{
+server.listen(port,()=>{
     console.log(`Server is running on ${port}`);
 })

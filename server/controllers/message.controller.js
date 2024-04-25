@@ -1,6 +1,6 @@
 const { Conversation } = require('../models/conversation.model')
 const { Message } = require('../models/message.model')
-const { userModel } = require('../models/user.model')
+const {getReceiverSocketId} = require('../utils/socket')
 class Messages {
 
     //post send message
@@ -30,9 +30,14 @@ class Messages {
                 conversation.message.push(newMessage._id);
             }
 
-            //Socket io functionality here
-
+            
             await Promise.all([conversation.save(), newMessage.save()])
+            
+            //Socket io functionality here
+            const receiverSocketId = getReceiverSocketId(receiverId)
+            if(receiverSocketId){
+                io.to(receiverSocketId).emit('newMessage',newMessage)
+            }
 
             res.json(newMessage)
 
