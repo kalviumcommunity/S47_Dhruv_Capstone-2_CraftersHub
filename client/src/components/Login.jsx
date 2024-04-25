@@ -2,7 +2,6 @@ import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import login from '../css/login.module.css'
 import loginimg from '../assets/login.jpg'
 //Material Ui components
 import Button from '@mui/material/Button'
@@ -58,8 +57,10 @@ const Login = () => {
 
   return (
     <div className= "flex">
-      <div className={login.imgdiv}>
-        <img src={loginimg} alt="login image" className={login.img} />
+      <div >
+        <img src={loginimg} alt="login image" 
+        className='h-imageHeight w-imageWidth'
+        />
       </div>
       <div 
       className="flex flex-col w-40vw items-center justify-center text-center ml-10"
@@ -113,7 +114,6 @@ const Login = () => {
             <p style={{ color: "blue", cursor: "pointer" }} onClick={() => navigate('/forgetPassword')} className="text-1xl mb-6 ml-48">Forget password?</p>
           </div>
           <Button
-            className={login.loginbtn}
             endIcon={<LoginIcon />}
             variant="contained"
             size='large'
@@ -133,7 +133,7 @@ const Login = () => {
           startIcon={<Google />}
           onClick={googlePage}
         >Continue with google</Button>
-        <p className="text-1xl mt-2">Not have an account? <Link to={'/signup'} className={login.signupbtn}>Signup</Link></p>
+        <p className="text-1xl mt-2">Not have an account? <Link to={'/signup'} className="text-signup no-underline">Signup</Link></p>
       </div>
 
     </div>
