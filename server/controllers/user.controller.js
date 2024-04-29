@@ -50,7 +50,7 @@ class User {
                     res.json(newUser)
                 }
             } else {
-                res.status(400).json({ message: "Invalid OTP" })
+                res.status(400).send("Invalid OTP")
             }
         } catch (error) {
             console.log(error);

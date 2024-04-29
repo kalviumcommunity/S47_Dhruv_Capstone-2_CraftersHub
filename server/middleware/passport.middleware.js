@@ -9,9 +9,10 @@ const intializingPassport = (passport) =>{
             const user = await userModel.findOne({username})
 
             if (!user || !(await bcrypt.compare(password, user.password))) {
-                return done(null, false);
+                // return done(null,false,{ message: 'Invalid username or password' });
+                return done(null,false,{message:'Invalid username or password'});
             }
-            // req.session.user = user
+
             return done(null,user)   
         } catch (error) {
             return done(error,false)

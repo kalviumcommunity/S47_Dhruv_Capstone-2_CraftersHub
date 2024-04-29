@@ -1,11 +1,13 @@
 import React from 'react'
 import ChatList from './ChatList'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
+import Navbar from './Navbar'
 const ChatRoom = () => {
     
   return (
     <div>
-        <ChatList/>
+      <Navbar option='chat'/>
+      <ChatList />
         <hr />
         
     </div>

@@ -4,11 +4,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import signupImg from '../assets/signup.jpg'
 //MUI components
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton'
-import { Visibility, VisibilityOff, Login, Email, PermIdentity ,Lock,Google} from '@mui/icons-material';
+import { TextField, Alert, Button, InputAdornment, IconButton, AlertTitle } from '@mui/material/'
+import { Visibility, VisibilityOff, Login, PermIdentity, Lock, Google } from '@mui/icons-material';
 const Signup = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -18,6 +15,8 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const navigate = useNavigate()
   const [validOtp, setValidOTP] = useState('')
+  const [error, setError] = useState('')
+  const [warn, setWarn] = useState('')
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -43,22 +42,26 @@ const Signup = () => {
           otp,
           validOtp
         }).then(res => {
-          console.log(res);
+          // console.log(res);
           localStorage.setItem("id", res.data._id)
           navigate('/')
         }).catch((error) => {
-          console.log(error);
-          alert(error.response.data)
+          console.log("post error", error.response.data);
+
+          setError(error.response.data)
         })
       } else {
-        alert('Password not match')
+        setError('Password not match ')
       }
     } else {
-      alert('Please generate OTP')
+      setError('Please generate OTP')
     }
   }
 
-
+  window.addEventListener('click', () => {
+    setWarn('')
+    setError('')
+  })
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -72,7 +75,7 @@ const Signup = () => {
         console.log("response", response);
         navigate('/')
       } catch (error) {
-        console.log(error);
+        console.log("error", error);
       }
     }
     fetchUser()
@@ -85,27 +88,43 @@ const Signup = () => {
         .then(res => {
           setValidOTP(res.data.validOTP)
           setOtpGenterated(true)
-          alert('OTP sent to your email')
+
+          // alert('OTP sent to your email')
+          setWarn('OTP sent to your email')
         }).catch(err => {
           console.log(err);
         })
     }
   }
   console.log(validOtp);
+  console.log(error);
   const googlesignuup = () => {
     window.open("http://localhost:9000/auth/google/callback", "_self")
   }
   return (
     <div className="flex">
-      <div className='w-signup_Width flex flex-col w-40vw items-center justify-center text-center ml-10'>
+      {/* Error alert */}
+      {error &&
+        <Alert severity="error" style={{ fontSize: "3vh", position: 'absolute', left: '11vw', borderRadius: '20px' }}>
+          <AlertTitle style={{ fontWeight: '900' }}>Error</AlertTitle>
+          {error}
+        </Alert>}
 
-      <Lock
-      color='primary'
-      sx={{ fontSize: 80 }}
-      variant='contained'
-      className="mx-auto" 
-      />
-        <h1 className='text-5xl font-light mt-1 mb-10'>SignUp</h1>
+      {/* Info Alert */}
+      {warn &&
+        <Alert severity="info" style={{ fontSize: "3vh", position: 'absolute', left: '11vw', borderRadius: '20px' }}>
+          <AlertTitle style={{ fontWeight: '900', fontSize: '2vw' }}>Info</AlertTitle>
+          {warn}
+        </Alert>}
+
+      <div className='w-signup_Width flex flex-col w-40vw items-center justify-center text-center ml-10 max-[640px]:mx-auto'>
+        <Lock
+          color='primary'
+          sx={{ fontSize: 80 }}
+          variant='contained'
+          className="mx-auto"
+        />
+        <h1 className='text-5xl font-light mt-2 mb-10 font-serif'>SignUp</h1>
         <form onSubmit={(e) => onSignupBtn(e)}>
           <div>
             <TextField
@@ -128,34 +147,42 @@ const Signup = () => {
               }} />
           </div>
           {/* <div> */}
-            <TextField
-              type="email"
-              name="username"
-              required
-              placeholder='Enter your email'
-              onChange={(e) => setEmail(e.target.value)}
-              label='Email'
-              variant="outlined"
-              size='small'
-              color='primary'
-              className='h-12 w-80'
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Email color='primary' />
-                  </InputAdornment>
-                )
-              }}
-            />
-            <br />
-            <div className='mb-3'>
+          <TextField
+            type="email"
+            name="username"
+            required
+            placeholder='Enter your email'
+            onChange={(e) => setEmail(e.target.value)}
+            label='Email'
+            variant="outlined"
+            size='small'
+            color='primary'
+            className='h-12 w-80'
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  {/* <Email color='primary' /> */}
+                  {/* <div className='mb-3'> */}
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    size='small'
+                    // className='w-full'
+                    onClick={() => generateOtp()}>Generate OTP</Button>
+                  {/* </div> */}
+                </InputAdornment>
+              )
+            }}
+          />
+          <br />
+          {/* <div className='mb-3'>
             <Button
               variant='contained'
               color='primary'
               size='small'
-              // className='mt-6'
+              // className='w-full'
               onClick={() => generateOtp()}>Generate OTP</Button>
-              </div>
+          </div> */}
           {/* </div> */}
 
           <div>
@@ -189,7 +216,7 @@ const Signup = () => {
               required
               placeholder='Enter confirm password'
               onChange={(e) => setConfirmPassword(e.target.value)}
-              label="Password"
+              label="Confirm Password"
               variant="outlined"
               size="small"
               color="primary"
@@ -217,7 +244,7 @@ const Signup = () => {
                 variant="outlined"
                 size="small"
                 color="primary"
-                className='h-12 w-80'
+                className='h-[60px] w-80'
               />
             </div>}
           <Button
@@ -225,25 +252,28 @@ const Signup = () => {
             variant="contained"
             size='large'
             endIcon={<Login />}
-            className='mx-auto'
+            className='w-full'
           >SignUp</Button>
         </form>
 
         <div className="flex text-2xl m-2.5">
           <hr className="h-1 w-44 m-4 bg-slate-300" />
-        <span>or</span>
-            <hr className="h-1 w-44 m-4 bg-slate-300"/>
+          <span>or</span>
+          <hr className="h-1 w-44 m-4 bg-slate-300" />
         </div>
 
-        <Button 
-        color='primary'
-        size='large'
-        variant='contained'
-        startIcon={<Google />}
-        onClick={googlesignuup}>Continue wth google</Button>
+        <Button
+          color='primary'
+          size='large'
+          variant='contained'
+          startIcon={<Google />}
+          className='w-[324px]'
+          onClick={googlesignuup}>Continue wth google</Button>
         <p className='text-1xl mt-2'>Not have an account? <Link to={'/login'} className="text-signup">Login</Link></p>
       </div>
-      <img src={signupImg} alt="SignUP" className="h-imageHeight w-imageWidth "/>
+      <div className=' hidden sm:block'>
+      <img src={signupImg} alt="SignUP" className="h-imageHeight w-imageWidth " />
+      </div>
     </div>
   )
 }

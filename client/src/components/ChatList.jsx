@@ -21,6 +21,7 @@ const ChatList = () => {
     // console.log("online",onlineUser);
     useListenMessage()
     useEffect(() => {
+        // setNavbarOption('chat')
         const fetchUser = async () => {
             try {
                 const id = localStorage.getItem('id')
@@ -83,6 +84,7 @@ const ChatList = () => {
         const min = padzero(date.getMinutes())
         return `${hour}:${min}`
     }
+    console.log("onlineUser",onlineUser);
     return (
         <div>
             <div>

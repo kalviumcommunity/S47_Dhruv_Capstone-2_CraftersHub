@@ -3,18 +3,17 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import loginimg from '../assets/login.jpg'
+import {GoogleLogin} from '@react-oauth/google'
 //Material Ui components
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import InputAdornment from '@mui/material/InputAdornment';
+import {Button,TextField,InputAdornment, Alert,AlertTitle} from '@mui/material/'
 import { Google, Email, LockOpen, Person2 } from '@mui/icons-material'
 import LoginIcon from '@mui/icons-material/Login';
-
+import { GoogleOAuthProvider } from '@react-oauth/google'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
-
+  const [error,setError] = useState('')
 
   const onLoginBtn = async (e) => {
     e.preventDefault()
@@ -27,7 +26,9 @@ const Login = () => {
       localStorage.setItem("id", response.data.user._id)
       navigate('/')
     } catch (error) {
-      console.log("login error", error);
+      console.log("login error", error.response.data);
+      setError(error.response.data)
+      
     }
   }
 
@@ -55,13 +56,23 @@ const Login = () => {
     window.open("http://localhost:9000/auth/google/callback", "_self")
   }
 
+  window.addEventListener('click',()=>{
+    setError('')
+  })
   return (
-    <div className= "flex">
-      <div >
+    <>
+    {/* <GoogleOAuthProvider clientId='943815947383-jlnf2vd8lq1jta1l076k8ea42aa2vtrm.apps.googleusercontent.com'> */}
+    <div className= "sm:flex">
+      <div className=' hidden sm:block'>
         <img src={loginimg} alt="login image" 
         className='h-imageHeight w-imageWidth'
         />
       </div>
+      {error && 
+          <Alert severity="error" style={{fontSize: "3vh",position:'absolute',right:'11vw', borderRadius:'20px',width:'20vw'}}>
+            <AlertTitle style={{ fontWeight: '900'}}>Error</AlertTitle>
+            {error}
+          </Alert>}
       <div 
       className="flex flex-col w-40vw items-center justify-center text-center ml-10"
       >
@@ -70,7 +81,7 @@ const Login = () => {
           sx={{ fontSize: 80 }}
           className="mx-auto"
         />
-        <h2 className="text-5xl font-light mt-1 mb-10">Login</h2>
+        <h2 className="text-5xl font-light mt-1 mb-10 font-serif ">Login</h2>
         <form onSubmit={(e) => onLoginBtn(e)} className="flex flex-col items-center">
           <div className='h-20'>
             <TextField
@@ -118,6 +129,7 @@ const Login = () => {
             variant="contained"
             size='large'
             type='submit'
+            className='w-full'
           >Login</Button>
         </form>
         <div className="flex text-2xl m-2.5">
@@ -132,11 +144,21 @@ const Login = () => {
           size='large'
           startIcon={<Google />}
           onClick={googlePage}
-        >Continue with google</Button>
+          className='w-[324px]'
+        >
+          Continue with google
+          {/* <GoogleLogin
+          clientId = "943815947383-jlnf2vd8lq1jta1l076k8ea42aa2vtrm.apps.googleusercontent.com"
+          buttonText= "continue with google"
+          scope="profile email"
+          /> */}
+          </Button>
         <p className="text-1xl mt-2">Not have an account? <Link to={'/signup'} className="text-signup no-underline">Signup</Link></p>
       </div>
 
     </div>
+    {/* </GoogleOAuthProvider> */}
+    </>
   )
 }
 
