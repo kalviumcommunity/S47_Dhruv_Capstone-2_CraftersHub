@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Button, IconButton, Menu, MenuItem, useMediaQuery } from '@mui/material'
 import {Category,Chat, AccountCircle,Logout, Login,LockOpen} from '@mui/icons-material'
-import {MenuIcon} from '@mui/icons-material/Menu' 
+import MenuIcon from '@mui/icons-material/Menu' 
 // import useConversation from '../Zustand/getConversation'
 
 const Navbar = forwardRef(({option}, ref) => {
