@@ -1,15 +1,17 @@
 import useConversation from "../Zustand/getConversation"
 import axios from "axios"
 const SendMessage = () => {
-    const {messages,selectedConversation, setMessages} = useConversation()
+    const {messages,selectedConversation, setMessages,conversation_Id, setConversationId} = useConversation()
     const sendMessage = async (newMessage,user)=>{
         try {
             const response = await axios.post(`http://localhost:9000/message/send/${selectedConversation._id}`,{
                 message: newMessage,
                 senderId: user._id
             })
-            console.log(response);
-            setMessages([...messages,newMessage])
+            console.log("send message",response.data.newMessage);
+            setConversationId(response.data.conversation.id)
+            console.log("conversation_Id",conversation_Id);
+            setMessages([...messages,response.data.newMessage])
         } catch (error) {
             console.log(error);
         }

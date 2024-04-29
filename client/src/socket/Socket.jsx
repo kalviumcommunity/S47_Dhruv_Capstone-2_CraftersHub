@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import io from 'socket.io-client'
 import axios from "axios";
-
+import useConversation from '../Zustand/getConversation'
 export const SocketContext = createContext()
 
 export const useSocketContext = () => {
@@ -12,6 +12,7 @@ export const SocketContextProvider = ({ children }) => {
   const [run, setRun] = useState(false)
   const [onlineUser, setOnlineUser] = useState([])
   const [user, setUser] = useState(null)
+  const {selectedConversation,conversation_Id } = useConversation()
   const fetchUser = async () => {
     try {
       const id = localStorage.getItem('id')
@@ -31,13 +32,18 @@ export const SocketContextProvider = ({ children }) => {
 
   },[])
   useEffect(() => {
-    if (user) {
+    if (user ) {
+      // console.log("selectedConversation",selectedConversation);
+      // console.log('selectedConversation',selectedConversation? selectedConversation._id: null);
+      console.log("conversation_Id in getMEssage",conversation_Id);
+
       const socket = io('http://localhost:9000', {
         query: {
-          userId: user._id
+          userId: user._id,
+          conversationId : conversation_Id
         }
       })
-      console.log("socket", socket);
+      // console.log("socket", socket);
       setRun(true)
       socket.on('getOnlineUSer', (users) => {
         setOnlineUser(users)
@@ -55,6 +61,6 @@ export const SocketContextProvider = ({ children }) => {
       // }
     }
 
-  }, [user,run])
+  }, [user,run,selectedConversation,conversation_Id])
   return <SocketContext.Provider value={{ socket, onlineUser }}>{children}</SocketContext.Provider>
 }

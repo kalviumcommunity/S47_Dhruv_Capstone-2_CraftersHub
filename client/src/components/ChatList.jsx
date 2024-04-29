@@ -18,7 +18,7 @@ const ChatList = () => {
     const lastMessageRef = useRef()
     const {onlineUser} = useSocketContext()
     
-    console.log("online",onlineUser);
+    // console.log("online",onlineUser);
     useListenMessage()
     useEffect(() => {
         const fetchUser = async () => {
@@ -30,7 +30,7 @@ const ChatList = () => {
                         'Authorization': `Bearer ${id}`,
                     }
                 } : { withCredentials: true })
-                console.log("response", response);
+                // console.log("response", response);
                 setFetchData(true)
                 setUser(response.data.user)
             } catch (error) {
@@ -38,7 +38,7 @@ const ChatList = () => {
                 navigate('/error')
             }
         }
-        console.log(user._id);
+        console.log(user);
 
         const fetchList = async () => {
             try {

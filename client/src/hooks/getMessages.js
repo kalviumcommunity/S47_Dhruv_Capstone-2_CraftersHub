@@ -1,20 +1,21 @@
 import { useEffect } from "react"
 import useConversation from "../Zustand/getConversation"
 import axios from "axios"
-import useListenMessage from "./useListenMessage"
 const getMessages = (user) => {
-    const { messages, selectedConversation, setMessages } = useConversation()
+    const { messages, selectedConversation, setMessages, } = useConversation()
     // useListenMessage()
     useEffect(() => {
-
+        console.log('selectedConversation._id',selectedConversation);
+        console.log('user._id',user._id);
         const getMessage = async (user) => {
             try {
                 const response = await axios.get(`http://localhost:9000/message/${selectedConversation._id}`, {
                     params: {
                         senderId: user._id
+                        // conversationId: conversation_Id
                     }
                 })
-                // console.log(response);
+                console.log("getMessage console response",response);
                 setMessages(response.data)
             } catch (error) {
                 console.log(error);
@@ -23,11 +24,10 @@ const getMessages = (user) => {
             
         }
         if (selectedConversation?._id) getMessage(user)
-
         // return useListenMessage()
     }, [selectedConversation?._id, setMessages,user._id])
 
-    return { messages }
+    return { messages}
 
 }
 
