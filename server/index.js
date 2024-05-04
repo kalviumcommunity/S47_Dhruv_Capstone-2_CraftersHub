@@ -9,7 +9,7 @@ require('dotenv').config()
 const port = process.env.PORT || 2000
 
 const corsOptions = {
-    origin: process.env.Frontend_URL,
+    origin:'*',
     credentials: true 
   };
   app.use(cors(corsOptions))
