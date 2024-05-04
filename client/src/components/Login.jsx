@@ -3,12 +3,11 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import loginimg from '../assets/login.jpg'
-import {GoogleLogin} from '@react-oauth/google'
+import logo from '../assets/CraftersHubLogo.png'
 //Material Ui components
 import {Button,TextField,InputAdornment, Alert,AlertTitle} from '@mui/material/'
 import { Google, Email, LockOpen, Person2 } from '@mui/icons-material'
 import LoginIcon from '@mui/icons-material/Login';
-import { GoogleOAuthProvider } from '@react-oauth/google'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -76,11 +75,12 @@ const Login = () => {
       <div 
       className="flex flex-col w-40vw items-center justify-center text-center ml-10"
       >
-        <Person2
+        <img src={logo} alt="" className='mx-auto h-40' />
+        {/* <Person2
           color='primary'
           sx={{ fontSize: 80 }}
           className="mx-auto"
-        />
+        /> */}
         <h2 className="text-5xl font-light mt-1 mb-10 font-serif ">Login</h2>
         <form onSubmit={(e) => onLoginBtn(e)} className="flex flex-col items-center">
           <div className='h-20'>

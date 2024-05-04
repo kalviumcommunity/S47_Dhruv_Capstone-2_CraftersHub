@@ -3,6 +3,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import signupImg from '../assets/signup.jpg'
+import logo from '../assets/CraftersHubLogo.png'
+
 //MUI components
 import { TextField, Alert, Button, InputAdornment, IconButton, AlertTitle } from '@mui/material/'
 import { Visibility, VisibilityOff, Login, PermIdentity, Lock, Google } from '@mui/icons-material';
@@ -34,9 +36,12 @@ const Signup = () => {
     e.preventDefault()
     if (otpGenerated) {
       console.log(name, password, email);
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
       if (password == confirmPassword) {
-        axios.post('http://localhost:9000/signup', {
-          name,
+        if(passwordRegex.test(password)){
+
+          axios.post('http://localhost:9000/signup', {
+            name,
           username: email,
           password,
           otp,
@@ -50,6 +55,9 @@ const Signup = () => {
 
           setError(error.response.data)
         })
+      }else{
+        setError('Password must be at least 8 characters long and contain at least one letter, one number, and one special character.')
+      }
       } else {
         setError('Password not match ')
       }
@@ -118,12 +126,14 @@ const Signup = () => {
         </Alert>}
 
       <div className='w-signup_Width flex flex-col w-40vw items-center justify-center text-center ml-10 max-[640px]:mx-auto'>
-        <Lock
+        {/* <Lock
           color='primary'
           sx={{ fontSize: 80 }}
           variant='contained'
           className="mx-auto"
-        />
+        /> */}
+        <img src={logo} alt="" className='mx-auto h-40' />
+
         <h1 className='text-5xl font-light mt-2 mb-10 font-serif'>SignUp</h1>
         <form onSubmit={(e) => onSignupBtn(e)}>
           <div>
