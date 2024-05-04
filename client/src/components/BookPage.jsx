@@ -166,7 +166,7 @@ const BookPage = () => {
                 </div>
             </div>
             <div className='border w-max shadow-[#1976D2] shadow-[1px_1px_5px_3px] my-3 sm:h-[90vh] sm:overflow-auto scrollbar-thin scrollbar-webkit'>
-                <h1 className='text-3xl font-serif font-bold text-[#001F2B] text-center '>Product Details</h1>
+                <h1 className='text-3xl font-serif font-bold text-[#001F2B] text-center mt-3'>Product Details</h1>
                 <div className='flex items-center my-4'>
                     <Button
                         className="text-xs sm:text-xl sm:h-[5vh] w-min"

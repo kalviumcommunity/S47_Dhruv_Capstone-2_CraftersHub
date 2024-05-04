@@ -1,4 +1,5 @@
 
+
 export default {
   content: [
     "./index.html",
@@ -15,6 +16,9 @@ export default {
       },
       colors:{
         "signup":"#0000FF"
+      },
+      backgroundImage:{
+        'form': "url('./assets/form.jpg')"
       }
 
     },
@@ -38,7 +42,13 @@ export default {
             borderRadius : "20px",
             border: "1px solid white"
           }
-        }
+        },
+        ".outlined-input": {
+          borderColor: "white",
+          '&:focus': {
+            boxShadow: "outline-white",
+          },
+        },
       }
       addUtilities(newUtilities, ["responsive","hover"])
     }

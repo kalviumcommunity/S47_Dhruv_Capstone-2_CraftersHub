@@ -3,7 +3,7 @@ import React, { useEffect, useState,useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from './Navbar'
 // import useConversation from '../Zustand/getConversation'
-
+import Footer from './footer'
 //MUI component
 import { Button } from '@mui/material'
 import { ArrowForwardIos,ArrowBackIos, ArrowCircleUp } from '@mui/icons-material'
@@ -105,13 +105,9 @@ const Product = () => {
                             <div key={item._id} className='sm:flex py-[3vh] mx-auto px-[5vw] justify-evenly sm:m-[2vh] border shadow-[#1976D2] shadow-[1px_1px_5px_3px] sm:w-[75vw] w-[90vw] sm:mx-auto  sm:my-6 '>
                                 <div className='flex items-center'>
                                     <Button
-                                    // variant='outlined' 
-                                    className="text-xs sm:text-xl sm:h-[5vh] w-min"
                                     onClick={() => countDecrease(index)}><ArrowBackIos/></Button>
                                     <img src={item.productImg[imageIndexes[index]]} alt="Product image" className='sm:h-[300px] sm:w-[350px] h-[200px] w-[200px] ' />
                                     <Button
-                                    // variant='contained'
-                                    // className='' 
                                     onClick={() => countIncrease(index)}><ArrowForwardIos/></Button>
                                 </div>
                                 <div className='sm:flex sm:items-center my-10 mx-auto'>
@@ -150,6 +146,7 @@ const Product = () => {
                     })}
                 </div>
             }
+            <Footer/>
         </div>
     )
 }

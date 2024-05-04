@@ -2,7 +2,9 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import form from '../css/form.module.css'
+//MUi component
+import { Button, TextField, Alert, AlertTitle } from '@mui/material'
+import { FileUpload, Cancel } from '@mui/icons-material'
 const ProductUpdate = () => {
     const { id } = useParams()
     const [user, setuser] = useState([])
@@ -20,15 +22,12 @@ const ProductUpdate = () => {
     const [weight, setWeigth] = useState("")
     const [weightUnit, setWeightUnit] = useState("")
 
+    const [success,setSuccess] = useState('')
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                // let headers = { withCredentials: true }
                 const id = localStorage.getItem('id')
 
-                // if (id) {
-                //     headers['Authorization'] = `Bearer ${id}`
-                // }
                 const response = await axios.get('http://localhost:9000/login/success' ,(id)?  {
                     headers:{
                       'Authorization': `Bearer ${id}`,
@@ -79,33 +78,52 @@ const ProductUpdate = () => {
             email: user.username
         }).then((res) => {
             console.log("put resonse", res.data);
-            alert("Data updated")
-            navigate('/profile')
+            setSuccess("Data updated")
+            // navigate('/profile')
         }).catch((err) => {
             console.log(err);
         })
     }
+    if(success){
+        setTimeout(()=>{
+            setSuccess('')
+            navigate('/profile')
+        },1000)
+    }
     return (
-        <div className={form.body}>
-            <div className={form.form}>
-                <h1>Update data</h1>
+        <div className='bg-form sm:h-[100vh] sm:w-[100vw] sm:bg-cover h-screen	w-screen sm:pt-[6vh] sm:pl-16'>
+            {success && <Alert severity="success" style={{ fontSize: "3vh", position: 'absolute', textAlign: 'center',top:'0', left: '35vw', borderRadius: '20px' }}>
+                <AlertTitle style={{ fontWeight: '900' }}>success</AlertTitle>
+                {success}
+            </Alert>
+            }
+            <div className='border bg-teal-950 shadow-[1px_1px_5px_3px]  sm:w-[40vw] sm:h-[90vh] sm:flex flex-col p-[2vh] text-center text-lg sm:overflow-y-auto scrollbar-thin scrollbar-webkit'>
+                <h1 className='text-5xl font-serif text-[white] mb-6'>Update data</h1>
                 <form onSubmit={(e) => onSubmtBtn(e)} method="post" encType="multipart/form-data">
-                    <div className={form.inputbox}>
-                        <label htmlFor="productName">Product name:- </label>
-                        <input
-                            type="text"
+                    <div className='flex items-center justify-between my-4 w-full'>
+                        <label  className='sm:text-2xl font-serif text-[white]' htmlFor="productName">Product name:- </label>
+                        <TextField                            
+                        type="text"
                             id='productName'
-                            className={form.inputs}
                             name='productName'
                             placeholder='Enter product name'
                             value={productName}
                             required
+                            label='Product name'
+                            variant="outlined"
+                            size='small'
+                            InputLabelProps={{
+                                style: { color: '#1976D2' },
+                            }}
+                            InputProps={{
+                                style: { color: 'white' },
+                            }}
                             onChange={(e) => setProductName(e.target.value)}
                         />
                     </div>
-                    <div className={form.inputbox}>
-                        <label htmlFor="category">Product category:- </label>
-                        <select name="category" id="category" className={form.inputs} value={category} onChange={(e) => setCategory(e.target.value)} required>
+                    <div className='flex items-center justify-between my-4'>
+                        <label className='sm:text-2xl font-serif text-[white]' htmlFor="category">Product category:- </label>
+                        <select name="category" id="category" className='sm:w-[15.2vw] w-[50vw] h-[5vh] rounded-lg' value={category} onChange={(e) => setCategory(e.target.value)} required>
                             <option value="">Choose category</option>
                             <option value="jewellery">Jewellery</option>
                             <option value="miniature">Miniature</option>
@@ -115,9 +133,9 @@ const ProductUpdate = () => {
                             <option value="pottery">Pottery</option>
                         </select>
                     </div>
-                    <div className={form.inputbox}>
-                        <label htmlFor="material">Product material:- </label>
-                        <select name="material" id="material" className={form.inputs} value={material} onChange={(e) => setMaterial(e.target.value)} required>
+                    <div className='flex items-center justify-between my-4'>
+                        <label className='sm:text-2xl font-serif text-[white]' htmlFor="material">Product material:- </label>
+                        <select name="material" id="material" className='sm:w-[15.2vw] w-[50vw] h-[5vh] rounded-lg' value={material} onChange={(e) => setMaterial(e.target.value)} required>
                             <option value="">Choose material</option>
                             <option value="glass">Glass</option>
                             <option value="stones">Stones</option>
@@ -131,82 +149,129 @@ const ProductUpdate = () => {
                             <option value="cardboard">Cardboard</option>
                         </select>
                     </div>
-                    <div className={form.inputbox}>
-                        <label htmlFor="description">Product description:- </label>
-                        <input
+                    <div className='flex items-center justify-between my-4'>
+                        <label className='sm:text-2xl font-serif text-[white]' htmlFor="description">Product description:- </label>
+                        <TextField                            
                             type="text"
                             id='description'
-                            className={form.inputs}
                             name='description'
                             placeholder='Enter product description'
                             value={description}
+                            label='Product description'
+                            variant="outlined"
+                            size='small'
+                            InputLabelProps={{
+                                style: { color: '#1976D2', borderColor: 'white' },
+                            }}
+                            InputProps={{
+                                style: { color: 'white', borderColor: 'white' },
+                            }}
                             onChange={(e) => setDescription(e.target.value)}
                             required
                         />
                     </div>
-                    <div className={form.inputbox}>
-                        <label htmlFor="price">Price (in Rs):- </label>
-                        <input
+                    <div className='flex items-center justify-between my-4'>
+                        <label className='sm:text-2xl font-serif text-[white]' htmlFor="price">Price (in Rs):- </label>
+                        <TextField                            
                             type="number"
                             id='price'
                             name='price'
-                            className={form.inputs}
                             placeholder='Enter Price'
                             value={price}
+                            label='Price'
+                            variant="outlined"
+                            size='small'
+                            InputLabelProps={{
+                                style: { color: '#1976D2', borderColor: 'white' },
+                            }}
+                            InputProps={{
+                                style: { color: 'white', borderColor: 'white' },
+                            }}
                             onChange={(e) => setPrice(e.target.value)}
                             required
                         />
                     </div>
-                    <div className={form.inputbox}>
-                        <label htmlFor="stock">Available Stock:- </label>
-                        <input
+                    <div className='flex items-center justify-between my-4'>
+                        <label className='sm:text-2xl font-serif text-[white]' htmlFor="stock">Available Stock:- </label>
+                        <TextField                            
                             type="number"
                             id='stock'
                             name='stock'
-                            className={form.inputs}
                             placeholder='Available stock'
                             value={stock}
+                            label='Price'
+                            variant="outlined"
+                            size='small'
+                            InputLabelProps={{
+                                style: { color: '#1976D2', borderColor: 'white' },
+                            }}
+                            InputProps={{
+                                style: { color: 'white', borderColor: 'white' },
+                            }}
                             onChange={(e) => setStock(e.target.value)}
                             required
                         />
                     </div>
-                    <div className={form.inputbox}>
-                        <label htmlFor="height">Dimensions:- </label>
+                    <div className='flex items-center justify-between my-4'>
+                        <label className='sm:text-2xl font-serif text-[white]' htmlFor="height">Dimensions:- </label>
                         <div>
-                            <input
+                            <TextField                                
                                 type="number"
                                 id='height'
-                                className={form.input}
                                 name='height'
                                 placeholder='Height'
                                 value={height}
+                                label='Price'
+                            variant="outlined"
+                            size='small'
+                            className='sm:w-20 '
+                            InputLabelProps={{
+                                style: { color: '#1976D2', borderColor: 'white' },
+                            }}
+                            InputProps={{
+                                style: { color: 'white', borderColor: 'white' },
+                            }}
                                 onChange={(e) => setHeight(e.target.value)}
                                 required
                             />
-                            {/* <br /> */}
-                            <input
-                                type="number"
+                            <TextField                                
+                            type="number"
                                 id='length'
-                                className={form.input}
                                 name='length'
                                 placeholder='Length'
                                 value={length}
+                                label='Price'
+                            variant="outlined"
+                            size='small'
+                            InputLabelProps={{
+                                style: { color: '#1976D2', borderColor: 'white' },
+                            }}
+                            InputProps={{
+                                style: { color: 'white', borderColor: 'white' },
+                            }}
                                 onChange={(e) => setLength(e.target.value)}
                                 required
+                                className='sm:w-20 '
                             />
-                            {/* <br /> */}
-                            <input
-                                type="number"
+                            <TextField                                type="number"
                                 id='weidth'
-                                className={form.input}
                                 name='width'
                                 placeholder='Width'
                                 value={width}
+                                label='Price'
+                            variant="outlined"
+                            size='small'
+                            InputLabelProps={{
+                                style: { color: '#1976D2', borderColor: 'white' },
+                            }}
+                            InputProps={{
+                                style: { color: 'white', borderColor: 'white' },
+                            }}
                                 onChange={(e) => setWidth(e.target.value)}
                                 required
+                                className='sm:w-20 '
                             />
-                            {/* <br /> */}
-                            <select name="dimenstionUnit" id="stock" className={form.input} value={dimenstionUnit} onChange={(e) => setDimenstionUnit(e.target.value)} required>
+                            <select name="dimenstionUnit" id="stock" className='sm:w-[6.5vw] w-[50vw] h-[5vh] rounded-lg text-sm' value={dimenstionUnit} onChange={(e) => setDimenstionUnit(e.target.value)} required>
                                 <option value="">Choose unit</option>
                                 <option value="cm">centimeter</option>
                                 <option value="m">meter</option>
@@ -216,30 +281,47 @@ const ProductUpdate = () => {
                             </select>
                         </div>
                     </div>
-                    <div className={form.inputbox}>
-                        <label htmlFor="weight">Weight:- </label>
+                    <div className='flex items-center justify-between my-4'>
+                        <label className='sm:text-2xl font-serif text-[white]' htmlFor="weight">Weight:- </label>
                         <div>
-                            <input
-                                type="number"
+                            <TextField                                type="number"
                                 id='weight'
                                 name='weight'
-                                className={form.input}
                                 placeholder='weight'
                                 value={weight}
+                                label='weight'
+                                variant="outlined"
+                                size='small'
+                                // color='primary'
+                                InputLabelProps={{
+                                    style: { color: '#1976D2', borderColor: 'white' },
+                                }}
+                                InputProps={{
+                                    style: { color: 'white', borderColor: 'white' },
+                                }}
                                 onChange={(e) => setWeigth(e.target.value)}
                                 required
                             />
                             {/* <br /> */}
-                            <select name="weightUnit" id="weight" className={form.input} value={weightUnit} onChange={(e) => setWeightUnit(e.target.value)} required>
+                            <select name="weightUnit" id="weight"  className='sm:w-[8vw] w-[25vw] h-[5vh] rounded-lg text-sm' value={weightUnit} onChange={(e) => setWeightUnit(e.target.value)} required>
                                 <option value="">Choose weight unit</option>
                                 <option value="gm">gm</option>
                                 <option value="Kg">Kg</option>
                             </select>
                         </div>
                     </div>
-
-                    <button type='submit' className={form.submitbtn}>Update</button>
-                    <button className={form.submitbtn} onClick={() => navigate('/profile')}>Cancel</button>
+                    <div className='flex justify-evenly mt-10'>
+                    <Button
+                    variant='contained' 
+                    endIcon={<FileUpload />} 
+                    size='large'  
+                    type='submit' 
+                    >Update</Button>
+                    <Button 
+                    variant='contained' endIcon={<Cancel />} size='large' 
+                    onClick={() => navigate('/profile')}
+                    >Cancel</Button>
+                    </div>
                 </form>
             </div>
         </div>

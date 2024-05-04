@@ -13,10 +13,8 @@ import ProductUpdate from './components/ProductUpdate'
 import ForgetPassword from './components/ForgetPassword'
 import ResetPassword from './components/ResetPassword'
 import BookPage from './components/BookPage'
-import Payment from './components/Payment'
 import OrderPlaced from './components/OrderPlaced'
 import ChatList from './components/ChatList'
-import ChatRoom from './components/ChatRoom'
 function App() {
 
   return (
@@ -34,9 +32,9 @@ function App() {
       <Route path='/forgetPassword' element={<ForgetPassword/>}></Route>
       <Route path='/resetPassword/:id/:token' element={<ResetPassword/>}></Route>
       <Route path='/book/:id' element={<BookPage/>}></Route>
-      <Route path='/payment' element={<Payment/>}></Route>
+      {/* <Route path='/payment' element={<Payment/>}></Route> */}
       <Route path='/orderPlaced' element={<OrderPlaced/>}></Route>
-      <Route path='/chat' element={<ChatRoom/>}></Route>
+      <Route path='/chat' element={<ChatList/>}></Route>
 
     </Routes>
     </>
