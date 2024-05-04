@@ -45,7 +45,7 @@ auth.get('/auth/google', passport.authenticate("google", { scope: ["profile", "e
 
 
 auth.get('/auth/google/callback', passport.authenticate("google", {
-    successRedirect: "http://localhost:5173/",
+    successRedirect: process.env.Frontend_URL,
     failureRedirect: `${process.env.SERVER_URL}/login`
 }))
 
