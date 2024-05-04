@@ -29,7 +29,6 @@ export const SocketContextProvider = ({ children }) => {
   }
   useEffect(() => {
     fetchUser()
-
   },[])
   useEffect(() => {
     if (user ) {

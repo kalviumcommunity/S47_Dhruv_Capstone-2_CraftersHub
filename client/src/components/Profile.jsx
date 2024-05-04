@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Navbar from './Navbar'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import home from '../css/Home.module.css'
+// import useConversation from '../Zustand/getConversation'
+// import home from '../css/Home.module.css'
 const Profile = () => {
   const [userData, setUserData] = useState([])
   const navigate = useNavigate()
   const [product, setProduct] = useState([])
   const [imageIndexes, setImageIndexes] = useState([]);
+  // const {setNavbarOption} = useConversation()
 
   useEffect(() => {
+    // setNavbarOption('profile')
     const fetchUser = async () => {
       try {
         //Get User
@@ -79,7 +82,7 @@ const Profile = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar option='profile' />
       <div>
         <img src={userData.ownerImg} alt="owner Image" />
         <div>
@@ -103,10 +106,10 @@ const Profile = () => {
         <div>
           {product.map((item, index) => {
             return (
-              <div key={item._id} className={home.box}>
+              <div key={item._id} >
                 <div>
                   <button onClick={() => countDecrease(index)}>{'<'}</button>
-                  <img src={item.productImg[imageIndexes[index]]} alt="ProductImg" className={home.img} />
+                  <img src={item.productImg[imageIndexes[index]]} alt="ProductImg"  />
                   <button onClick={() => countIncrease(index)}>{'>'}</button>
                 </div>
                 <div>

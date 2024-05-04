@@ -11,6 +11,7 @@ const transporter = nodemailer.createTransport({
         pass: process.env.MAIL_PASS
     }
 })
+
 //Forget password mail
 const ForgetPasswordMail = (user, token) => {
     const mailOptions = {
@@ -58,8 +59,22 @@ const otpSignUp = (email,Otp)=>{
             return res.send({ status : success })
         }
     })
-
-
 }
 
-module.exports = { ForgetPasswordMail,otpSignUp ,generatedOtp}
+const successPayment = (payment_id,order_id,username)=>{
+    const successMail = {
+        from: process.env.EMAIL,
+        to: `${username}`,
+        subject: "Order placed!",
+        text: `Your order is placed successfully, Your payment Id is ${payment_id} and your order Id is ${order_id}`
+    } 
+
+    transporter.sendMail(successMail,function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            return res.send({ status : success })
+        }
+    })
+}
+module.exports = { ForgetPasswordMail,otpSignUp ,generatedOtp, successPayment}

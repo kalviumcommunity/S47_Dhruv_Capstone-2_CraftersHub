@@ -33,11 +33,29 @@ auth.get('/ping', (req, res) => {
 
 
 
-auth.post('/login', passport.authenticate("local"
-    , {
-        failureRedirect: "/signup",
-    }
-), User.LoginLocal)
+// auth.post('/login', passport.authenticate("local"
+//     , {
+//         failureRedirect: "/signup",
+//         failureFlash:true
+//     }
+// ), User.LoginLocal)
+auth.post('/login', (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+        if (err) { 
+            return res.status(500).send("Internal Server Error");
+        }
+        if (!user) { 
+            return res.status(401).send("Invalid credentials");
+        }
+        req.logIn(user, (err) => {
+            if (err) { 
+                return res.status(500).send("Login failed");
+            }
+            return next();
+        });
+    })(req, res, next);
+}, User.LoginLocal);
+
 
 auth.get('/auth/google', passport.authenticate("google", { scope: ["profile", "email"] }))
 
