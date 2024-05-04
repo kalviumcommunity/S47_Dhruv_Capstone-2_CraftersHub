@@ -4,10 +4,7 @@ const product = require('./routes/product')
 const auth = require('./routes/auth')
 const message = require('./routes/messages')
 const cors = require('cors')
-// const app = express()
 const {app, server} = require('./utils/socket')
-// const passport = require('passport')
-// const expressSession = require('express-session')
 require('dotenv').config()
 const port = process.env.PORT || 2000
 

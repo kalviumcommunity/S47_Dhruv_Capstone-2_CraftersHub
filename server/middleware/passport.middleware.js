@@ -27,10 +27,8 @@ const intializingPassport = (passport) =>{
             scope:["profile","email"]
         },
         async (accessToken,refreshToken,profile,done)=>{
-            // console.log("profile", profile);
             try {
                 let existUser = await userModel.findOne({username:profile.emails[0].value})
-                // console.log("existUser",existUser);
                 if(!existUser){
                     user = await userModel.create({
                         name : profile.displayName,
@@ -49,7 +47,6 @@ const intializingPassport = (passport) =>{
     )
 
     passport.serializeUser((user,done)=>{
-        // console.log("user._id",user);
         done(null,user.id)
     })
 
@@ -60,7 +57,6 @@ const intializingPassport = (passport) =>{
         } catch (error) {
             done(error,false)
         }
-        // done(null,user)
     })
 } 
 

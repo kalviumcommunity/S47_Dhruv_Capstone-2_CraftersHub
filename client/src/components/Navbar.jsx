@@ -12,8 +12,7 @@ const Navbar = forwardRef(({option}, ref) => {
   const [userData, setUserData] = useState({})
   const [anchorEl, setAnchorEl] = useState(null)
   const isMobile = useMediaQuery('(max-width:600px)')
-  // const [selectedOption, setSelectedOption] = useState('')
-  // const { setNavbarOption, navbarOption } = useConversation()
+  
   //Menu open and close
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget)
@@ -28,7 +27,7 @@ const Navbar = forwardRef(({option}, ref) => {
     const id = localStorage.getItem('id')
 
     try {
-      const response = await axios.get('http://localhost:9000/login/success', (id) ? {
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/login/success`, (id) ? {
         headers: {
           'Authorization': `Bearer ${id}`,
         }
@@ -46,7 +45,7 @@ const Navbar = forwardRef(({option}, ref) => {
   //Handle logout
   const logout = () => {
     localStorage.clear()
-    window.open('http://localhost:9000/logout', "_self")
+    window.open(`${import.meta.env.VITE_SERVER_URL}/logout`, "_self")
   }
 
   // console.log(navbarOption);

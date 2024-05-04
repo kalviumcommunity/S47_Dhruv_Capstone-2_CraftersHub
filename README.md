@@ -24,3 +24,7 @@ Integration with third-party authentication services like Google will enhance se
 5. working on the chating and payment opttion.
 5. Then I am going to use 3rd party authentication and autherization by google.
 6. Deploy frontend.
+
+
+
+Server deployed link = https://s47-dhruv-capstone-2-craftershub-1.onrender.com

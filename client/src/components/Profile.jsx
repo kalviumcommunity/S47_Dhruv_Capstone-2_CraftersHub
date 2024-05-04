@@ -19,14 +19,14 @@ const Profile = () => {
         //Get User
         const id = localStorage.getItem('id')
 
-        const userResponse = await axios.get('http://localhost:9000/login/success', (id) ? {
+        const userResponse = await axios.get(`${import.meta.env.VITE_SERVER_URL}/login/success`, (id) ? {
           headers: {
             'Authorization': `Bearer ${id}`,
           }
         } : { withCredentials: true })
 
         //Get product
-        const productResponse = await axios.get('http://localhost:9000/product')
+        const productResponse = await axios.get(`${import.meta.env.VITE_SERVER_URL}/product`)
         const [userDataResponse, productDataResponse] = await Promise.all([userResponse, productResponse]);
 
         // Extract data from responses
@@ -71,7 +71,7 @@ const Profile = () => {
 
   const DeleteProduct = async (id) => {
     try {
-      await axios.delete(`http://localhost:9000/product/${id}`)
+      await axios.delete(`${import.meta.env.VITE_SERVER_URL}/product/${id}`)
       window.location.reload()
     } catch (error) {
       console.log(error);
@@ -190,7 +190,7 @@ if(alert){
             )
           })}
         </div>
-        : <p>Data not found</p>}
+        : <p className='text-center font-serif text-[#001F2B] text-5xl m-12'>Data not found</p>}
         <Footer/>
     </div>
 

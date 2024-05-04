@@ -12,31 +12,6 @@ class product{
         }
     }
 
-    //Post request
-    // static PostData = async (req,res)=>{
-    //     try {
-    //         const newFiles = req.files
-    //         const newData = req.body
-    //         const productImage = []
-    //         const ownerImage = []
-    //         if(newFiles.productImg && newFiles.ownerImg){
-    //             for(let i=0; i<newFiles.productImg.length;i++){
-    //                 productImage.push(newFiles.productImg[i].filename)
-    //             }
-    //             for(let i=0; i<newFiles.ownerImg.length;i++){
-    //                 ownerImage.push(newFiles.ownerImg[i].filename)
-    //             }
-    //             newData.productImg = productImage
-    //             newData.ownerImg = ownerImage
-    //         }
-    //         await productModel.create(newData)
-    //         console.log(newData);
-    //         res.json(newData)
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     static PostData = async (req,res)=>{
         try {

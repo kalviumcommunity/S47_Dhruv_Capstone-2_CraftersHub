@@ -21,7 +21,7 @@ const Product = () => {
         try {
             const id = localStorage.getItem('id')
 
-            const response = await axios.get('http://localhost:9000/login/success', (id) ? {
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/login/success`, (id) ? {
                 headers: {
                     'Authorization': `Bearer ${id}`,
                 }
@@ -41,7 +41,7 @@ const Product = () => {
         const fetchData = async () => {
             setError('')
             try {
-                const res = await axios.get('http://localhost:9000/product', {
+                const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/product`, {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": localStorage.getItem('email')
@@ -92,7 +92,7 @@ const Product = () => {
                 <div>
                     <h1 className='text-xl text-center text-[#001F2B]'>{error}</h1>
                 </div> :
-                <div >
+                <div className='overflow-scroll scrollbar-thin scrollbar-webkit'>
                     <div >
                         <Navbar ref={reference} option='product'/>
                     </div>
