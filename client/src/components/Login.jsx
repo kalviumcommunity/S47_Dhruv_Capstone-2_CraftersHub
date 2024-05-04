@@ -6,7 +6,7 @@ import loginimg from '../assets/login.jpg'
 import logo from '../assets/CraftersHubLogo.png'
 //Material Ui components
 import {Button,TextField,InputAdornment, Alert,AlertTitle} from '@mui/material/'
-import { Google, Email, LockOpen, Person2 } from '@mui/icons-material'
+import { Google, Email, LockOpen } from '@mui/icons-material'
 import LoginIcon from '@mui/icons-material/Login';
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -17,7 +17,7 @@ const Login = () => {
   const onLoginBtn = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:9000/login', {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, {
         username: email,
         password
       })
@@ -36,7 +36,7 @@ const Login = () => {
       try {
         const id = localStorage.getItem('id')
 
-        const response = await axios.get('http://localhost:9000/login/success', (!id) ? { withCredentials: true } : {
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/login/success`, (!id) ? { withCredentials: true } : {
           headers: {
             'Authorization': `Bearer ${id}`,
           }
@@ -52,7 +52,7 @@ const Login = () => {
 
 
   const googlePage = () => {
-    window.open("http://localhost:9000/auth/google/callback", "_self")
+    window.open(`${import.meta.env.VITE_SERVER_URL}/auth/google/callback`, "_self")
   }
 
   window.addEventListener('click',()=>{
@@ -60,7 +60,6 @@ const Login = () => {
   })
   return (
     <>
-    {/* <GoogleOAuthProvider clientId='943815947383-jlnf2vd8lq1jta1l076k8ea42aa2vtrm.apps.googleusercontent.com'> */}
     <div className= "sm:flex">
       <div className=' hidden sm:block'>
         <img src={loginimg} alt="login image" 
@@ -147,17 +146,12 @@ const Login = () => {
           className='w-[324px]'
         >
           Continue with google
-          {/* <GoogleLogin
-          clientId = "943815947383-jlnf2vd8lq1jta1l076k8ea42aa2vtrm.apps.googleusercontent.com"
-          buttonText= "continue with google"
-          scope="profile email"
-          /> */}
+          
           </Button>
         <p className="text-1xl mt-2">Not have an account? <Link to={'/signup'} className="text-signup no-underline">Signup</Link></p>
       </div>
 
     </div>
-    {/* </GoogleOAuthProvider> */}
     </>
   )
 }

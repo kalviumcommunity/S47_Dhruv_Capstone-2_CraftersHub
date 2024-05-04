@@ -12,7 +12,7 @@ const ForgetPassword = () => {
 
     const onSendbtn = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:9000/forgotPassword', { username: email })
+        axios.post(`${import.meta.env.VITE_SERVER_URL}/forgotPassword`, { username: email })
             .then((res) => {
                 console.log(res)
                 setInfo('Please check your mail')

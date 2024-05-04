@@ -40,7 +40,7 @@ const Signup = () => {
       if (password == confirmPassword) {
         if(passwordRegex.test(password)){
 
-          axios.post('http://localhost:9000/signup', {
+          axios.post(`${import.meta.env.VITE_SERVER_URL}/signup`, {
             name,
           username: email,
           password,
@@ -92,7 +92,7 @@ const Signup = () => {
   const generateOtp = () => {
     setValidOTP('')
     if (email) {
-      axios.post('http://localhost:9000/otpVerification', { email })
+      axios.post(`${import.meta.env.VITE_SERVER_URL}/otpVerification`, { email })
         .then(res => {
           setValidOTP(res.data.validOTP)
           setOtpGenterated(true)
@@ -107,7 +107,7 @@ const Signup = () => {
   console.log(validOtp);
   console.log(error);
   const googlesignuup = () => {
-    window.open("http://localhost:9000/auth/google/callback", "_self")
+    window.open(`${import.meta.env.VITE_SERVER_URL}/auth/google/callback`, "_self")
   }
   return (
     <div className="flex">
@@ -126,12 +126,7 @@ const Signup = () => {
         </Alert>}
 
       <div className='w-signup_Width flex flex-col w-40vw items-center justify-center text-center ml-10 max-[640px]:mx-auto'>
-        {/* <Lock
-          color='primary'
-          sx={{ fontSize: 80 }}
-          variant='contained'
-          className="mx-auto"
-        /> */}
+        
         <img src={logo} alt="" className='mx-auto h-40' />
 
         <h1 className='text-5xl font-light mt-2 mb-10 font-serif'>SignUp</h1>
@@ -185,16 +180,6 @@ const Signup = () => {
             }}
           />
           <br />
-          {/* <div className='mb-3'>
-            <Button
-              variant='contained'
-              color='primary'
-              size='small'
-              // className='w-full'
-              onClick={() => generateOtp()}>Generate OTP</Button>
-          </div> */}
-          {/* </div> */}
-
           <div>
             <TextField
               type={showPassword ? 'text' : 'password'}

@@ -7,7 +7,7 @@ import SendMessage from '../hooks/SendMessage'
 import getMessages from '../hooks/getMessages'
 import { useSocketContext } from '../socket/Socket'
 import useListenMessage from '../hooks/useListenMessage'
-
+// import Footer from './footer'
 import { TextField, Button } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
 const ChatList = () => {
@@ -30,7 +30,7 @@ const ChatList = () => {
             try {
                 const id = localStorage.getItem('id')
 
-                const response = await axios.get('http://localhost:9000/login/success', (id) ? {
+                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/login/success`, (id) ? {
                     headers: {
                         'Authorization': `Bearer ${id}`,
                     }
@@ -47,7 +47,7 @@ const ChatList = () => {
 
         const fetchList = async () => {
             try {
-                const list = await axios.get('http://localhost:9000/getOtherUser', {
+                const list = await axios.get(`${import.meta.env.VITE_SERVER_URL}/getOtherUser`, {
                     params: {
                         senderId: user._id
                     }
@@ -137,7 +137,6 @@ const ChatList = () => {
                             )
                         })}
                     </div>
-                    {/* <hr /> */}
                 </div>
                 <hr />
                 {!selectedConversation ?
@@ -145,7 +144,7 @@ const ChatList = () => {
                         Please select the person for start a conversation
                     </div> :
                     <div className='w-[60vw] h-[100vh] overflow-auto scrollbar-thin scrollbar-webkit'>
-                        <div className='flex items-center'>
+                        <div className='flex items-center sticky top-0 bg-[white]'>
                             {selectedConversation.ownerImg[0] ?
                                 <img src={selectedConversation.ownerImg[0]} alt="persons image"
                                     className='sm:h-[10vh] sm:w-[10vh] rounded-full m-2'
@@ -202,7 +201,7 @@ const ChatList = () => {
                                 </div>}
                         </div>
                         <br />
-                            <div style={{ position: 'fixed',width:'60vw', bottom: 0, backgroundColor: 'white', }}>
+                            <div style={{ position: 'sticky',width:'58vw', bottom: 0, backgroundColor: 'white', }}>
                         <form onSubmit={(e) => OnsubmitBtn(e)}>
                             <div className='flex'>
                                 <TextField
@@ -224,6 +223,7 @@ const ChatList = () => {
                     </div>
                 }
             </div>
+            {/* <Footer/> */}
         </div>
     )
 }

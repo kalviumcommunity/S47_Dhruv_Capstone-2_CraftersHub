@@ -5,7 +5,7 @@ import Home2 from '../assets/Home2.jpg'
 import Home3 from '../assets/Home3.jpg'
 import Home4 from '../assets/Home4.jpg'
 import Footer from './footer.jsx'
-import { Typewriter, Cursor } from 'react-simple-typewriter'
+import { Typewriter } from 'react-simple-typewriter'
 const Home = () => {
   const [count, setCount] = useState(0)
 
@@ -40,8 +40,9 @@ const Home = () => {
 
   console.log(count);
   return (
-    <div>
+    <div className='overflow-auto scrollbar-thin scrollbar-webkit'>
       <Navbar option='' />
+      <div >
       <div
         style={{
           backgroundImage: `url(${bgImages[count].img})`,
@@ -81,6 +82,7 @@ const Home = () => {
       </div>
 
       <Footer />
+    </div>
     </div>
   )
 }

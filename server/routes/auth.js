@@ -22,23 +22,7 @@ auth.use(passport.session())
 auth.get('/ping', (req, res) => {
     res.send('Dhruv khandelwal')
 })
-// auth.get('/user', async (req, res) => {
-//     try {
-//         const data = await userModel.find({})
-//         res.json(data)
-//     } catch (error) {
-//         res.status(401).send(error)
-//     }
-// })
 
-
-
-// auth.post('/login', passport.authenticate("local"
-//     , {
-//         failureRedirect: "/signup",
-//         failureFlash:true
-//     }
-// ), User.LoginLocal)
 auth.post('/login', (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) { 
@@ -62,7 +46,7 @@ auth.get('/auth/google', passport.authenticate("google", { scope: ["profile", "e
 
 auth.get('/auth/google/callback', passport.authenticate("google", {
     successRedirect: "http://localhost:5173/",
-    failureRedirect: "http://localhost:9000/login"
+    failureRedirect: `${process.env.SERVER_URL}/login`
 }))
 
 auth.get('/login/success', User.SuccessLogin)

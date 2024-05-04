@@ -34,7 +34,7 @@ const Form = () => {
         try {
             const id = localStorage.getItem('id')
 
-            const response = await axios.get('http://localhost:9000/login/success', (id) ? {
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/login/success`, (id) ? {
                 headers: {
                     'Authorization': `Bearer ${id}`,
                 }
@@ -78,7 +78,7 @@ const Form = () => {
                 formData.forEach((value, key) => {
                     console.log(`${key}: ${value}`);
                 });
-                const respose = await axios.post('http://localhost:9000/product/insert', formData, {
+                const respose = await axios.post(`${import.meta.env.VITE_SERVER_URL}/product/insert`, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data"
                     }
@@ -98,17 +98,20 @@ const Form = () => {
         console.log(fileData[0]);
         setFieldValue(event.target.name, [...values[event.target.name], ...fileData])
     }
-    window.addEventListener('click', () => {
-        if (alert) {
+
+
+    if (alert) {
+        setTimeout(() => {
             setAlert('')
             navigate('/profile')
-            
-        }
-    })
+
+        }, 1000)
+
+    }
     // console.log(values);
     return (
         <div className='bg-form sm:h-[100vh] sm:w-[100vw] sm:bg-cover h-screen	w-screen sm:pt-[6vh] sm:pl-16' >
-            {alert && <Alert severity="success" style={{ fontSize: "3vh", position: 'absolute', textAlign: 'center',top:'0', left: '35vw', borderRadius: '20px' }}>
+            {alert && <Alert severity="success" style={{ fontSize: "3vh", position: 'absolute', textAlign: 'center', top: '0', left: '35vw', borderRadius: '20px' }}>
                 <AlertTitle style={{ fontWeight: '900' }}>success</AlertTitle>
                 {alert}
             </Alert>

@@ -32,9 +32,6 @@ class Messages {
 
             
             await Promise.all([conversation.save(), newMessage.save()])
-            // console.log("conversation",conversation._id);
-            //Socket io functionality here
-            // const receiverSocketId = await getReceiverSocketId(receiverId)
             const conversationId = conversation._id.toString()
             if(conversationId){
                 console.log(`newMessage: ${message}, receiverId:, ${conversationId}`)

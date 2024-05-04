@@ -30,7 +30,7 @@ const ResetPassword = () => {
       return setError("password not match")
     }
 
-    axios.post(`http://localhost:9000/resetPassword/${id}/${token}`, { password })
+    axios.post(`${import.meta.env.VITE_SERVER_URL}/resetPassword/${id}/${token}`, { password })
       .then((res) => {
         console.log(res);
         navigate('/login')
