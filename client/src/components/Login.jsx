@@ -20,7 +20,7 @@ const Login = () => {
       const response = await axios.post(`https://s47-dhruv-capstone-2-craftershub-2.onrender.com/login`, {
         username: email,
         password
-      }, { withCredentials: true })
+      })
       console.log(response);
       localStorage.setItem("id", response.data.user._id)
       navigate('/')
